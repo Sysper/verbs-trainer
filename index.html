@@ -1,52 +1,57 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="light">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Verbs Trainer — Irregular + Regular</title>
 <link rel="icon" type="image/png" href="data:image/png;base64,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">
-<meta name="theme-color" content="#12151C">
+<meta name="theme-color" content="#FAF7F2">
 <meta name="referrer" content="no-referrer">
 <meta name="description" content="Practice English irregular and regular verbs with phonetics and audio.">
 <style>
+/* Palette: warm neutrals (2026 "Cloud Dancer" direction) + transformative
+   teal as primary, terracotta as accent. All text pairs verified against
+   WCAG AA/AAA so it stays readable for kids and older eyes alike. */
 :root{
-  --paper:#FBFAF7;
+  --paper:#FAF7F2;          /* warm white, not cold grey */
   --card:#FFFFFF;
-  --ink:#1B2A4A;
-  --blue:#2B5BD7;
-  --blue-soft:#E7EDFB;
-  --red:#D64545;
-  --red-soft:#FBEAEA;
-  --green:#2E9E5B;
-  --green-soft:#E6F4EC;
-  --amber:#B5731A;
-  --amber-soft:#FBF1E0;
-  --pencil:#8A8F98;
-  --line:#E4E2DC;
-  --tabbar:#EFEDE7;
-  --thead:#FAF9F5;
-  --placeholder:#C9C6BE;
-  --shadow:rgba(27,42,74,.05);
+  --ink:#2A3342;            /* soft charcoal — easier than pure black */
+  --blue:#0B5C5C;           /* transformative teal (primary) 7.28:1 */
+  --blue-soft:#DCEDEA;
+  --on-blue:#FFFFFF;        /* text on primary — 7.78:1 */
+  --red:#A82D20;            /* 6.42:1 */
+  --red-soft:#F9E7E4;
+  --green:#1F6B45;          /* 6.05:1 */
+  --green-soft:#E2F0E8;
+  --amber:#9E4425;          /* terracotta accent 5.94:1 */
+  --amber-soft:#FBECE2;
+  --pencil:#5A6270;         /* 5.75:1 */
+  --line:#E6E0D8;
+  --tabbar:#F0EAE1;
+  --thead:#FBF8F4;
+  --placeholder:#B5AEA4;
+  --shadow:rgba(42,51,66,.07);
   --radius:14px;
 }
 html[data-theme="dark"]{
-  --paper:#12151C;
-  --card:#1A1F29;
-  --ink:#E8EBF0;
-  --blue:#6C9BFF;
-  --blue-soft:#232E46;
+  --paper:#12161C;
+  --card:#1A2028;
+  --ink:#E8EDF2;
+  --blue:#6BB6E8;           /* sky / 'aura blue'  8.19:1 */
+  --blue-soft:#16283A;
+  --on-blue:#12161C;        /* dark text on light blue — 8.19:1 */
   --red:#F08585;
   --red-soft:#3A2226;
   --green:#5FCB8B;
-  --green-soft:#1D3128;
-  --amber:#E0A855;
-  --amber-soft:#33291A;
-  --pencil:#8E96A6;
+  --green-soft:#17311F;
+  --amber:#E8956B;          /* terracotta, lightened  7.73:1 */
+  --amber-soft:#33261C;
+  --pencil:#9AA5B4;
   --line:#2C3340;
   --tabbar:#232936;
   --thead:#1F2531;
   --placeholder:#4A5162;
-  --shadow:rgba(0,0,0,.35);
+  --shadow:rgba(0,0,0,.4);
 }
 *{box-sizing:border-box;margin:0;padding:0}
 /* Base size: browsers default to 16px. Everything below is in rem,
@@ -119,7 +124,7 @@ h1 span{color:var(--blue)}
 .verdict.good{color:var(--green)}
 .verdict.bad{color:var(--red)}
 .actions{display:flex;gap:10px;margin-top:24px;flex-wrap:wrap}
-button.primary{background:var(--blue);color:#fff;border:0;border-radius:10px;font:600 .95rem system-ui,-apple-system,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif;padding:12px 26px;cursor:pointer;transition:.15s}
+button.primary{background:var(--blue);color:var(--on-blue);border:0;border-radius:10px;font:600 .95rem system-ui,-apple-system,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif;padding:12px 26px;cursor:pointer;transition:.15s}
 button.primary:hover{background:var(--blue);filter:brightness(1.12)}
 button.ghost{background:transparent;color:var(--pencil);border:1px solid var(--line);border-radius:10px;font:600 .95rem system-ui,-apple-system,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif;padding:12px 20px;cursor:pointer}
 button.ghost:hover{color:var(--ink);border-color:var(--pencil)}
@@ -170,7 +175,7 @@ td.es{font-style:italic;color:var(--pencil)}
   border-radius:999px;padding:8px 14px;font:600 .8rem system-ui,-apple-system,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif;transition:.15s;
 }
 .supBtn:hover{border-color:var(--blue);color:var(--blue);transform:translateY(-1px)}
-.supBtn.star:hover{border-color:#E3B341;color:#E3B341}
+.supBtn.star:hover{border-color:#C08A2E;color:#C08A2E}
 .supBtn .starCount{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,'Liberation Mono',monospace;font-size:.75rem;color:var(--pencil);border-left:1px solid var(--line);padding-left:7px;margin-left:1px}
 .supBtn .starCount:empty{display:none}
 .supBtn .payNum{
@@ -178,7 +183,7 @@ td.es{font-style:italic;color:var(--pencil)}
   color:var(--blue);background:var(--blue-soft);
   padding:3px 8px;border-radius:6px;letter-spacing:.02em;
 }
-.supBtn.local:hover .payNum{background:var(--blue);color:#fff}
+.supBtn.local:hover .payNum{background:var(--blue);color:var(--on-blue)}
 .supBtn .copyHint{font-size:.62rem;text-transform:uppercase;letter-spacing:.06em;color:var(--pencil);border:1px solid var(--line);border-radius:4px;padding:1px 5px}
 .supBtn.local:hover .copyHint{border-color:var(--blue);color:var(--blue)}
 .toast{
@@ -919,21 +924,17 @@ function toast(msg){
 buildSupport();
 
 // --- theme ---
-// Starts from the system setting and follows it until you tap the button.
-let themeLocked=false;
-const mq=window.matchMedia('(prefers-color-scheme: dark)');
-
+// Light is the default for everyone; the button switches to dark.
+// (No system-preference follow: the request was day mode by default.)
 function applyTheme(t){
   document.documentElement.setAttribute('data-theme',t);
   document.getElementById('themeBtn').textContent = t==='dark' ? '☀️' : '🌙';
 }
 function toggleTheme(){
-  themeLocked=true;
   const now=document.documentElement.getAttribute('data-theme');
   applyTheme(now==='dark'?'light':'dark');
 }
-applyTheme(mq.matches?'dark':'light');
-mq.addEventListener('change',e=>{ if(!themeLocked) applyTheme(e.matches?'dark':'light') });
+applyTheme('light');
 
 renderTable();
 nextVerb();
