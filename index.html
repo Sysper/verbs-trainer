@@ -123,7 +123,31 @@ button.ghost{background:transparent;color:var(--pencil);border:1px solid var(--l
 button.ghost:hover{color:var(--ink);border-color:var(--pencil)}
 .hint{color:var(--pencil);font-size:.78rem;margin-top:14px;line-height:1.5}
 
-.search{width:100%;border:1px solid var(--line);border-radius:10px;background:var(--card);padding:12px 14px;font:400 .95rem 'Inter',sans-serif;color:var(--ink);margin-bottom:14px}
+.searchRow{display:flex;gap:8px;margin-bottom:8px;flex-wrap:wrap}
+.search{flex:1;min-width:200px;border:1px solid var(--line);border-radius:10px;background:var(--card);padding:12px 14px;font:400 .95rem 'Inter',sans-serif;color:var(--ink)}
+.searchRow button.primary{padding:12px 18px;white-space:nowrap}
+.searchRow button.ghost{padding:12px 14px}
+.dirRow{display:flex;gap:6px;margin-bottom:8px;flex-wrap:wrap}
+.dirBtn{border:1px solid var(--line);background:var(--card);color:var(--pencil);font:600 .78rem 'Inter',sans-serif;padding:7px 12px;border-radius:999px;cursor:pointer;transition:.15s}
+.dirBtn:hover{color:var(--ink)}
+.dirBtn.active{border-color:var(--blue);color:var(--blue);background:var(--blue-soft)}
+.dirBtn.swap{font-size:.95rem;padding:7px 11px}
+.dirNote{font-size:.75rem;color:var(--pencil);margin-bottom:12px;min-height:1.1em}
+.dirNote b{color:var(--blue)}
+.loading{color:var(--pencil);font-style:italic}
+.dictGrid{display:grid;gap:8px;margin-top:12px}
+.dictCard{
+  display:flex;align-items:center;gap:12px;text-decoration:none;
+  background:var(--card);border:1px solid var(--line);border-radius:10px;
+  padding:11px 14px;color:var(--ink);transition:.15s;
+}
+.dictCard:hover{border-color:var(--blue);transform:translateX(2px)}
+.dictCard .dIcon{font-size:1.15rem}
+.dictCard .dBody{display:flex;flex-direction:column;flex:1;min-width:0}
+.dictCard .dBody b{font-size:.92rem;color:var(--ink)}
+.dictCard .dTip{font-size:.74rem;color:var(--pencil);margin-top:1px}
+.dictCard .dArrow{color:var(--pencil);font-size:.85rem}
+.dictCard:hover .dArrow{color:var(--blue)}
 .tablewrap{border-radius:var(--radius);overflow:auto;max-height:62vh;border:1px solid var(--line);background:var(--card)}
 table{width:100%;border-collapse:collapse;font-size:.88rem}
 thead th{font:600 .68rem 'Inter',sans-serif;text-transform:uppercase;letter-spacing:.1em;color:var(--pencil);text-align:left;padding:12px 12px;border-bottom:1px solid var(--line);background:var(--thead);position:sticky;top:0}
@@ -141,10 +165,20 @@ td.es{font-style:italic;color:var(--pencil)}
 .empty .row{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin-top:14px}
 .empty a.ghostlink{display:inline-block;text-decoration:none;color:var(--pencil);border:1px solid var(--line);border-radius:10px;font:600 .85rem 'Inter',sans-serif;padding:10px 16px}
 .empty a.ghostlink:hover{color:var(--ink);border-color:var(--pencil)}
-.transResult{margin-top:16px;display:none;background:var(--blue-soft);color:var(--ink);border-radius:10px;padding:12px 16px;font-size:.95rem}
-.transResult.show{display:inline-block}
+.transResult{margin-bottom:14px;display:none;background:var(--blue-soft);color:var(--ink);border-radius:10px;padding:14px 16px;font-size:.95rem;line-height:1.7}
+.transResult.show{display:block}
 .transResult b{color:var(--blue)}
-.transResult .src{display:block;font-size:.7rem;color:var(--pencil);margin-top:4px}
+.transResult .tHead{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.transResult .tEn{font-family:'JetBrains Mono',monospace;font-size:1.35rem}
+.transResult .aph{font-family:'JetBrains Mono',monospace;font-style:italic;color:var(--amber);font-size:.9rem}
+.transResult .tEs{font-size:1rem;margin-top:2px}
+.transResult .pos{font:600 .6rem 'Inter',sans-serif;text-transform:uppercase;letter-spacing:.08em;color:var(--pencil);border:1px solid var(--line);border-radius:5px;padding:2px 6px;margin-left:6px}
+.transResult .tAlt{font-size:.82rem;color:var(--pencil);font-style:italic;margin-top:4px}
+.transResult .tForms{margin-top:10px;padding-top:10px;border-top:1px solid var(--line);font-family:'JetBrains Mono',monospace;font-size:.9rem}
+.transResult .tEx{margin-top:10px;padding-top:10px;border-top:1px solid var(--line);font-size:.88rem;font-style:italic}
+.transResult .tEx .exEs{color:var(--pencil)}
+.transResult a{color:var(--blue)}
+.transResult .src{display:block;font-size:.7rem;color:var(--pencil);margin-top:8px}
 @media (prefers-reduced-motion:no-preference){
   .card{animation:pop .18s ease}
   @keyframes pop{from{transform:translateY(4px);opacity:.6}to{transform:none;opacity:1}}
@@ -224,7 +258,19 @@ td.es{font-style:italic;color:var(--pencil)}
 
   <!-- STUDY -->
   <div id="studyView" class="hidden">
-    <input class="search" id="searchBox" placeholder="Search a verb… (English or Spanish)" oninput="renderTable()">
+    <div class="searchRow">
+      <input class="search" id="searchBox" placeholder="Search or translate…" autocomplete="off" spellcheck="false" oninput="renderTable()" onkeydown="if(event.key==='Enter'){event.preventDefault();doTranslate()}">
+      <button class="primary" id="btnTrans" onclick="doTranslate()">🔎 Look up</button>
+      <button class="ghost" id="btnHear" onclick="sayQuery()" title="Hear what you typed">🔊</button>
+    </div>
+    <div class="dirRow">
+      <button class="dirBtn active" data-d="auto" onclick="setDir('auto')">🪄 Auto</button>
+      <button class="dirBtn" data-d="en-es" onclick="setDir('en-es')">🇬🇧 EN → ES 🇪🇸</button>
+      <button class="dirBtn" data-d="es-en" onclick="setDir('es-en')">🇪🇸 ES → EN 🇬🇧</button>
+      <button class="dirBtn swap" onclick="swapDir()" title="Swap direction">⇄</button>
+    </div>
+    <div class="dirNote" id="dirNote"></div>
+    <div class="transResult" id="transResult"></div>
     <div class="tablewrap">
       <table>
         <thead><tr><th></th><th>Base</th><th>Past simple</th><th>Past participle</th><th>Español</th><th></th></tr></thead>
@@ -519,82 +565,137 @@ function renderTable(){
   }
   if(count===0 && q){
     const word=document.getElementById('searchBox').value.trim();
-    const enc=encodeURIComponent(word);
     const tr=document.createElement('tr');
     tr.innerHTML=`<td colspan="6"><div class="empty">
-      <div>"<span class="q">${word.replace(/</g,'&lt;')}</span>" is not in the list yet.</div>
-      <div class="row">
-        <button class="primary" onclick="translateOnline('${enc}')">🌐 Translate it</button>
-        <button class="ghost" onclick="say(decodeURIComponent('${enc}'))">🔊 Hear it</button>
-        <a class="ghostlink" href="https://www.wordreference.com/es/translation.asp?tranword=${enc}" target="_blank" rel="noopener">WordReference ↗</a>
-        <a class="ghostlink" href="https://translate.google.com/?sl=auto&tl=es&text=${enc}" target="_blank" rel="noopener">Google Translate ↗</a>
-      </div>
-      <div class="transResult" id="transResult"></div>
+      <div>"<span class="q">${esc(word)}</span>" is not in the verb list.</div>
+      <div class="row"><button class="primary" onclick="doTranslate()">🌐 Look it up</button></div>
     </div></td>`;
     tb.appendChild(tr);
   }
+  updateDirNote();
 }
 
-const looksSpanish=w=>/[áéíóúñ]/.test(w)||/(ar|er|ir|arse|erse|irse)$/.test(w.toLowerCase());
+const esc=s=>String(s).replace(/[<>&"]/g,c=>({'<':'&lt;','>':'&gt;','&':'&amp;','"':'&quot;'}[c]));
+const q1=s=>String(s).split('/')[0].trim().replace(/'/g,"\\'");
 
-async function translateOnline(enc){
+function sayQuery(){
+  const w=document.getElementById('searchBox').value.trim();
+  if(w) say(w);
+}
+
+function doTranslate(){
+  const w=document.getElementById('searchBox').value.trim();
+  if(!w) return;
+  translateOnline(encodeURIComponent(w));
+}
+
+const looksSpanish=w=>/[áéíóúñ¿¡]/.test(w)||/(ar|er|ir|arse|erse|irse)$/.test(w.toLowerCase());
+
+// Manual direction: 'auto' | 'en-es' | 'es-en'
+let dirMode='auto';
+
+function resolveDir(word){
+  if(dirMode!=='auto') return dirMode;
+  return looksSpanish(word)?'es-en':'en-es';
+}
+
+function setDir(d){
+  dirMode=d;
+  document.querySelectorAll('.dirBtn').forEach(b=>b.classList.toggle('active',b.dataset.d===d));
+  updateDirNote();
+}
+
+function swapDir(){
+  const d=resolveDir(document.getElementById('searchBox').value.trim());
+  setDir(d==='es-en'?'en-es':'es-en');
+}
+
+function updateDirNote(){
+  const note=document.getElementById('dirNote');
+  const w=document.getElementById('searchBox').value.trim();
+  if(!w){note.textContent='';return}
+  const d=resolveDir(w);
+  const label=d==='es-en'?'Spanish → English':'English → Spanish';
+  const how=dirMode==='auto'?'auto-detected':'set by you';
+  note.innerHTML=`<b>${label}</b> · ${how} · press Enter to look it up`;
+}
+
+// Look up a local verb first — instant, no internet needed
+function localHit(word,dir){
+  const n=norm(word);
+  for(const v of VERBS){
+    if(dir==='en-es'){
+      if([v.base,...v.past.split('/'),...v.part.split('/')].some(x=>norm(x)===n))
+        return {en:v.base,es:v.es,pos:'verb',ph:v.ph[0],forms:v}
+    }else{
+      if(v.es.split('/').some(x=>norm(x)===n) || norm(v.es)===n)
+        return {en:v.base,es:v.es,pos:'verb',ph:v.ph[0],forms:v}
+    }
+  }
+  return null;
+}
+
+// Dictionary sites — all free, open in a new tab, no API and no account needed
+const DICTS=[
+  {id:'wr',   name:'WordReference', icon:'📖', tip:'Best for verbs: every meaning, plus forum discussions',
+   url:(w,d)=> d==='es-en'
+     ? `https://www.wordreference.com/es/en/translation.asp?spen=${encodeURIComponent(w)}`
+     : `https://www.wordreference.com/es/translation.asp?tranword=${encodeURIComponent(w)}`},
+  {id:'deepl',name:'DeepL',        icon:'🎯', tip:'The most natural translations, great for full sentences',
+   url:(w,d)=> `https://www.deepl.com/translator#${d==='es-en'?'es/en':'en/es'}/${encodeURIComponent(w)}`},
+  {id:'gt',   name:'Google Translate', icon:'🌍', tip:'Fastest, and handles any language',
+   url:(w,d)=> `https://translate.google.com/?sl=${d==='es-en'?'es':'en'}&tl=${d==='es-en'?'en':'es'}&text=${encodeURIComponent(w)}`},
+  {id:'cam',  name:'Cambridge',    icon:'🎓', tip:'Includes real IPA phonetics and audio',
+   url:(w,d)=> `https://dictionary.cambridge.org/dictionary/${d==='es-en'?'spanish-english':'english-spanish'}/${encodeURIComponent(w)}`},
+  {id:'lin',  name:'Linguee',      icon:'🔍', tip:'Shows the word used in real bilingual sentences',
+   url:(w,d)=> `https://www.linguee.com/english-spanish/search?query=${encodeURIComponent(w)}`},
+];
+
+function translateOnline(enc){
   const word=decodeURIComponent(enc);
   const box=document.getElementById('transResult');
+  const dir=resolveDir(word);
   box.className='transResult show';
-  box.innerHTML='Looking it up…';
 
-  // 1) Try the Claude API (works when viewing this file inside Claude)
-  try{
-    const r=await fetch("https://api.anthropic.com/v1/messages",{
-      method:"POST",
-      headers:{"Content-Type":"application/json"},
-      body:JSON.stringify({
-        model:"claude-sonnet-4-6",
-        max_tokens:1000,
-        messages:[{role:"user",content:
-`Word: "${word}". It may be an English or Spanish verb (or any word).
-Respond ONLY with raw JSON, no markdown fences, in this exact shape:
-{"en_base":"…","en_past":"…","en_participle":"…","es":"Spanish meaning","type":"regular|irregular|not a verb","ph":["…","…","…"]}
-"ph" = Spanish-friendly phonetic spellings of the three English forms (e.g. went -> "uént", think -> "zink", house h -> "j", stressed syllable marked with an accent).
-If it's a Spanish verb, translate it to English first. If it's not a verb, still fill en_base with the English word, repeat it in the other form fields, and set type to "not a verb".`}]
-      })
-    });
-    if(r.ok){
-      const d=await r.json();
-      const text=(d.content||[]).filter(i=>i.type==="text").map(i=>i.text).join("").replace(/```json|```/g,"").trim();
-      const j=JSON.parse(text);
-      if(j&&j.en_base){renderLookup(word,j);return}
-    }
-  }catch(e){/* not inside Claude — try the public API below */}
+  // 1) Already in our verb list? Answer instantly, no internet, no cost.
+  const hit=localHit(word,dir);
+  if(hit){renderLocal(hit,dir);return}
 
-  // 2) Fallback: MyMemory (works when the file is opened locally with internet)
-  const pair=looksSpanish(word)?'es|en':'en|es';
-  try{
-    const r=await fetch(`https://api.mymemory.translated.net/get?q=${enc}&langpair=${pair}`);
-    if(!r.ok) throw new Error('HTTP '+r.status);
-    const d=await r.json();
-    const t=d?.responseData?.translatedText;
-    if(!t) throw new Error('empty');
-    const dir=pair==='es|en'?'ES → EN':'EN → ES';
-    box.innerHTML=`<b>${word}</b> = <b>${t}</b> <button class="speak sm" onclick="say('${(pair==='es|en'?t:word).replace(/'/g,"\\'")}')" title="Listen">🔊</button><span class="src">${dir} · online translation — double-check it in WordReference for verbs with several meanings</span>`;
-  }catch(e){
-    box.innerHTML=`Couldn't reach any translator. If you're offline, try the WordReference or Google Translate links when you're back online.`;
+  // 2) Otherwise let the user pick a dictionary — nothing is sent anywhere until they click.
+  const label=dir==='es-en'?'Spanish → English':'English → Spanish';
+  let h=`<div class="tHead"><b class="tEn">${esc(word)}</b> <button class="speak sm" onclick="say('${q1(word)}')" title="Listen">🔊</button></div>`;
+  h+=`<div class="tEs">Not in the verb list — where do you want to look it up? <span class="pos">${label}</span></div>`;
+  h+=`<div class="dictGrid">`;
+  for(const d of DICTS){
+    h+=`<a class="dictCard" href="${d.url(word,dir)}" target="_blank" rel="noopener">
+          <span class="dIcon">${d.icon}</span>
+          <span class="dBody"><b>${d.name}</b><span class="dTip">${d.tip}</span></span>
+          <span class="dArrow">↗</span>
+        </a>`;
   }
+  h+=`</div>`;
+  h+=`<span class="src">Opens in a new tab · nothing is sent until you choose</span>`;
+  box.innerHTML=h;
 }
 
-function renderLookup(word,j){
+function links(word,dir='en-es'){
+  return DICTS.slice(0,3).map(d=>`<a href="${d.url(word,dir)}" target="_blank" rel="noopener">${d.name} ↗</a>`).join(' · ');
+}
+
+function renderLocal(hit,dir){
   const box=document.getElementById('transResult');
-  const ph=Array.isArray(j.ph)?j.ph:['','',''];
-  const hear=f=>`<button class="speak sm" onclick="say('${String(f).split('/')[0].trim().replace(/'/g,"\\'")}')" title="Listen">🔊</button>`;
-  if(j.type==='not a verb'){
-    box.innerHTML=`<b>${word}</b> = <b>${j.es||j.en_base}</b> ${hear(j.en_base)}<span class="src">Looked up with AI — it doesn't seem to be a verb</span>`;
-    return;
-  }
-  box.innerHTML=
-    `<b>${j.en_base}</b> /${ph[0]||'?'}/ ${hear(j.en_base)} → `+
-    `<b>${j.en_past}</b> /${ph[1]||'?'}/ ${hear(j.en_past)} → `+
-    `<b>${j.en_participle}</b> /${ph[2]||'?'}/ ${hear(j.en_participle)}`+
-    `<span class="src">${j.es||''} · ${j.type||''} verb · looked up with AI — double-check in WordReference if unsure</span>`;
+  const v=hit.forms;
+  const hear=w=>`<button class="speak sm" onclick="say('${q1(w)}')" title="Listen">🔊</button>`;
+  let h=`<div class="tHead"><b class="tEn">${esc(v.base)}</b> <span class="aph">/${esc(v.ph[0])}/</span> ${hear(v.base)}</div>`;
+  h+=`<div class="tEs">= ${esc(v.es)} <span class="pos">${v.type==='I'?'irregular':'regular'} verb</span></div>`;
+  h+=`<div class="tForms">
+    <b>${esc(v.base)}</b> <span class="aph">/${esc(v.ph[0])}/</span> ${hear(v.base)} →
+    <b>${esc(v.past)}</b> <span class="aph">/${esc(v.ph[1])}/</span> ${hear(firstForm(v.past))} →
+    <b>${esc(v.part)}</b> <span class="aph">/${esc(v.ph[2])}/</span> ${hear(firstForm(v.part))}
+  </div>`;
+  if(v.type==='R') h+=`<div class="tAlt">${ED_LABELS[v.ed]}</div>`;
+  h+=`<span class="src">✓ From this app's verb list — works offline · look it up in ${links(v.base,dir)}</span>`;
+  box.innerHTML=h;
 }
 
 // --- theme ---
