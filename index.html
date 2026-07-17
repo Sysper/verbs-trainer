@@ -141,6 +141,10 @@ button.ghost:hover{color:var(--ink);border-color:var(--pencil)}
 .dirBtn.swap{font-size:.95rem;padding:7px 11px}
 .dirNote{font-size:.75rem;color:var(--pencil);margin-bottom:12px;min-height:1.1em}
 .dirNote b{color:var(--blue)}
+.transHint{
+  margin-top:14px;padding:14px 16px;border:1px dashed var(--line);
+  border-radius:var(--radius);font-size:.8rem;color:var(--pencil);line-height:1.7;
+}
 .loading{color:var(--pencil);font-style:italic}
 .dictGrid{display:grid;gap:8px;margin-top:12px}
 .dictCard{
@@ -254,6 +258,7 @@ td.es{font-style:italic;color:var(--pencil)}
   <div class="tabs" role="tablist">
     <button class="tab active" id="tabQuiz" onclick="showView('quiz')">Practice</button>
     <button class="tab" id="tabStudy" onclick="showView('study')">Verb list</button>
+    <button class="tab" id="tabTrans" onclick="showView('translate')">Translate</button>
   </div>
 
   <div class="filters" id="filters">
@@ -314,18 +319,9 @@ td.es{font-style:italic;color:var(--pencil)}
   <!-- STUDY -->
   <div id="studyView" class="hidden">
     <div class="searchRow">
-      <input class="search" id="searchBox" placeholder="Search or translate…" autocomplete="off" spellcheck="false" oninput="renderTable()" onkeydown="if(event.key==='Enter'){event.preventDefault();doTranslate()}">
-      <button class="primary" id="btnTrans" onclick="doTranslate()">🔎 Look up</button>
+      <input class="search" id="searchBox" placeholder="Filter the verb list…" autocomplete="off" spellcheck="false" oninput="renderTable()" onkeydown="if(event.key==='Enter'){event.preventDefault();sendToTranslate()}">
       <button class="ghost" id="btnHear" onclick="sayQuery()" title="Hear what you typed">🔊</button>
     </div>
-    <div class="dirRow">
-      <button class="dirBtn active" data-d="auto" onclick="setDir('auto')">🪄 Auto</button>
-      <button class="dirBtn" data-d="en-es" onclick="setDir('en-es')">🇬🇧 EN → ES 🇪🇸</button>
-      <button class="dirBtn" data-d="es-en" onclick="setDir('es-en')">🇪🇸 ES → EN 🇬🇧</button>
-      <button class="dirBtn swap" onclick="swapDir()" title="Swap direction">⇄</button>
-    </div>
-    <div class="dirNote" id="dirNote"></div>
-    <div class="transResult" id="transResult"></div>
     <div class="tablewrap">
       <table>
         <thead><tr><th></th><th>Base</th><th>Past simple</th><th>Past participle</th><th>Español</th><th></th></tr></thead>
@@ -341,6 +337,27 @@ td.es{font-style:italic;color:var(--pencil)}
       <b>Regular -ed endings:</b> after unvoiced sounds it sounds like <span class="k">/t/</span> (worked = "uórkt") ·
       after voiced sounds like <span class="k">/d/</span> (played = "pléid") ·
       after <b>t</b> or <b>d</b> it adds a syllable <span class="k">/id/</span> (wanted = "uóntid").
+    </div>
+  </div>
+
+  <!-- TRANSLATE -->
+  <div id="translateView" class="hidden">
+    <div class="searchRow">
+      <input class="search" id="transBox" placeholder="Type a word or a short phrase…" autocomplete="off" spellcheck="false" oninput="updateDirNote()" onkeydown="if(event.key==='Enter'){event.preventDefault();doTranslate()}">
+      <button class="primary" id="btnTrans" onclick="doTranslate()">🔎 Look up</button>
+      <button class="ghost" onclick="sayTrans()" title="Hear what you typed">🔊</button>
+    </div>
+    <div class="dirRow">
+      <button class="dirBtn active" data-d="auto" onclick="setDir('auto')">🪄 Auto</button>
+      <button class="dirBtn" data-d="en-es" onclick="setDir('en-es')">🇬🇧 EN → ES 🇪🇸</button>
+      <button class="dirBtn" data-d="es-en" onclick="setDir('es-en')">🇪🇸 ES → EN 🇬🇧</button>
+      <button class="dirBtn swap" onclick="swapDir()" title="Swap direction">⇄</button>
+    </div>
+    <div class="dirNote" id="dirNote"></div>
+    <div class="transResult" id="transResult"></div>
+    <div class="transHint" id="transHint">
+      Verbs from the list answer instantly and offline, with their forms, phonetics and audio.<br>
+      Anything else opens in the dictionary you choose — nothing is sent until you pick one.
     </div>
   </div>
 </div>
@@ -610,9 +627,14 @@ document.addEventListener('keydown',e=>{
 function showView(v){
   document.getElementById('quizView').classList.toggle('hidden',v!=='quiz');
   document.getElementById('studyView').classList.toggle('hidden',v!=='study');
+  document.getElementById('translateView').classList.toggle('hidden',v!=='translate');
   document.getElementById('tabQuiz').classList.toggle('active',v==='quiz');
   document.getElementById('tabStudy').classList.toggle('active',v==='study');
+  document.getElementById('tabTrans').classList.toggle('active',v==='translate');
+  // The filter row only makes sense next to the table.
+  document.getElementById('filters').classList.toggle('hidden',v==='translate');
   if(v==='quiz') document.getElementById('inPast').focus();
+  if(v==='translate') document.getElementById('transBox').focus();
 }
 
 function renderTable(){
@@ -637,13 +659,16 @@ function renderTable(){
   if(count===0 && q){
     const word=document.getElementById('searchBox').value.trim();
     const tr=document.createElement('tr');
-    tr.innerHTML=`<td colspan="6"><div class="empty">
+    const td=document.createElement('td');
+    td.colSpan=6;
+    td.innerHTML=`<div class="empty">
       <div>"<span class="q">${esc(word)}</span>" is not in the verb list.</div>
-      <div class="row"><button class="primary" onclick="doTranslate()">🌐 Look it up</button></div>
-    </div></td>`;
+      <div class="row"><button class="primary">🔎 Look it up in Translate</button></div>
+    </div>`;
+    td.querySelector('button').addEventListener('click',sendToTranslate);
+    tr.appendChild(td);
     tb.appendChild(tr);
   }
-  updateDirNote();
 }
 
 const esc=s=>String(s).replace(/[<>&"]/g,c=>({'<':'&lt;','>':'&gt;','&':'&amp;','"':'&quot;'}[c]));
@@ -654,8 +679,22 @@ function sayQuery(){
   if(w) say(w);
 }
 
-function doTranslate(){
+function sayTrans(){
+  const w=document.getElementById('transBox').value.trim();
+  if(w) say(w);
+}
+
+// Hand the word from the verb list over to the Translate tab and run it.
+function sendToTranslate(){
   const w=document.getElementById('searchBox').value.trim();
+  if(!w) return;
+  document.getElementById('transBox').value=w;
+  showView('translate');
+  doTranslate();
+}
+
+function doTranslate(){
+  const w=document.getElementById('transBox').value.trim();
   if(!w) return;
   translateOnline(encodeURIComponent(w));
 }
@@ -677,13 +716,15 @@ function setDir(d){
 }
 
 function swapDir(){
-  const d=resolveDir(document.getElementById('searchBox').value.trim());
+  const d=resolveDir(document.getElementById('transBox').value.trim());
   setDir(d==='es-en'?'en-es':'es-en');
 }
 
 function updateDirNote(){
   const note=document.getElementById('dirNote');
-  const w=document.getElementById('searchBox').value.trim();
+  const box=document.getElementById('transBox');
+  if(!note||!box) return;
+  const w=box.value.trim();
   if(!w){note.textContent='';return}
   const d=resolveDir(w);
   const label=d==='es-en'?'Spanish → English':'English → Spanish';
