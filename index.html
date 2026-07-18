@@ -173,11 +173,12 @@ td.es{font-style:italic;color:var(--pencil)}
 .legend .k{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,'Liberation Mono',monospace;color:var(--amber);font-style:italic}
 .hidden{display:none}
 .support{margin-bottom:18px}
-.supportBtns{display:flex;gap:8px;flex-wrap:wrap}
+.supportBtns{display:flex;gap:7px;flex-wrap:wrap}
 .supBtn{
-  display:inline-flex;align-items:center;gap:7px;text-decoration:none;cursor:pointer;
+  display:inline-flex;align-items:center;gap:6px;text-decoration:none;cursor:pointer;
   border:1px solid var(--line);background:var(--card);color:var(--ink);
-  border-radius:999px;padding:8px 14px;font:600 .8rem system-ui,-apple-system,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif;transition:.15s;
+  border-radius:999px;padding:8px 13px;font:600 .8rem system-ui,-apple-system,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif;transition:.15s;
+  white-space:nowrap;
 }
 .supBtn:hover{border-color:var(--blue);color:var(--blue);transform:translateY(-1px)}
 .supBtn.star:hover{border-color:#C08A2E;color:#C08A2E}
@@ -840,7 +841,7 @@ function buildSupport(){
     const b=document.createElement('button');
     b.className='supBtn local';
     b.title="Copies the number and opens Nequi's PSE page — paste it there and pay from your bank";
-    b.innerHTML=`<span>📱</span> <span class="payLabel">Apóyame al Nequi</span> <span class="payNum"></span> <span class="copyHint">PSE</span>`;
+    b.innerHTML=`<span>📱</span> <span class="payLabel">Nequi</span> <span class="payNum"></span> <span class="copyHint">PSE</span>`;
     // textContent, not string interpolation: any characters are safe here
     b.querySelector('.payNum').textContent=CONFIG.nequi;
     b.addEventListener('click',()=>nequiPSE(CONFIG.nequi));
