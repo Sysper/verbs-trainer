@@ -146,6 +146,62 @@ button.ghost:hover{color:var(--ink);border-color:var(--pencil)}
   margin-top:14px;padding:14px 16px;border:1px dashed var(--line);
   border-radius:var(--radius);font-size:.8rem;color:var(--pencil);line-height:1.7;
 }
+/* ── Donation section ── */
+.donate{
+  position:relative;margin-top:48px;overflow:hidden;
+  border:1px solid var(--line);border-radius:20px;
+  background:linear-gradient(160deg, var(--amber-soft), var(--card) 62%);
+  padding:34px 24px 30px;text-align:center;
+}
+.donateGlow{
+  position:absolute;top:-70px;left:50%;transform:translateX(-50%);
+  width:260px;height:160px;border-radius:50%;
+  background:radial-gradient(closest-side, var(--amber), transparent);
+  opacity:.16;pointer-events:none;
+}
+.donateInner{position:relative;max-width:32rem;margin:0 auto}
+.donateHeart{
+  font-size:1.9rem;width:60px;height:60px;margin:0 auto 6px;
+  display:grid;place-items:center;border-radius:50%;
+  background:var(--card);border:1px solid var(--line);
+  box-shadow:0 6px 20px var(--shadow);
+}
+.donateTitle{
+  font-size:clamp(1.5rem,5vw,2rem);font-weight:800;letter-spacing:-.02em;
+  color:var(--amber);
+  background:linear-gradient(100deg, var(--amber), var(--blue));
+  -webkit-background-clip:text;background-clip:text;
+  margin:2px 0 8px;
+}
+@supports ((-webkit-background-clip:text) or (background-clip:text)){
+  .donateTitle{color:transparent}
+}
+.donateSub{font-size:.9rem;color:var(--pencil);line-height:1.65;margin:0 auto 8px;max-width:26rem}
+.donateSubEn{font-size:.8rem;opacity:.8;font-style:italic;margin-bottom:22px}
+.donateBtns{display:flex;gap:10px;justify-content:center;flex-wrap:wrap}
+.donoBtn{
+  display:inline-flex;align-items:center;gap:11px;text-decoration:none;cursor:pointer;
+  border:1px solid var(--line);background:var(--card);color:var(--ink);
+  border-radius:14px;padding:12px 16px;text-align:left;transition:.16s;
+  box-shadow:0 2px 8px var(--shadow);
+}
+.donoBtn:hover{transform:translateY(-2px);border-color:var(--blue);box-shadow:0 8px 22px var(--shadow)}
+.donoBtn .dIco{font-size:1.3rem;line-height:1}
+.donoBtn .dTxt{display:flex;flex-direction:column;line-height:1.25}
+.donoBtn .dTxt b{font-size:.92rem;font-weight:700}
+.donoBtn .dTxt small{font-size:.72rem;color:var(--pencil)}
+.donoBtn .dNum{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,'Liberation Mono',monospace;font-weight:700;color:var(--blue);font-size:.78rem}
+.donoBtn .dGo{
+  margin-left:2px;font-size:.64rem;font-weight:700;text-transform:uppercase;letter-spacing:.05em;
+  color:var(--pencil);border:1px solid var(--line);border-radius:6px;padding:3px 7px;
+}
+.donoBtn:hover .dGo{border-color:var(--blue);color:var(--blue)}
+.donoBtn.kofi:hover{border-color:var(--amber)}
+.donoBtn.kofi:hover .dGo{border-color:var(--amber);color:var(--amber)}
+@media (max-width:480px){
+  .donate{padding:28px 16px}
+  .donoBtn{width:100%;justify-content:flex-start}
+}
 .loading{color:var(--pencil);font-style:italic}
 .dictGrid{display:grid;gap:8px;margin-top:12px}
 .dictCard{
@@ -254,7 +310,7 @@ td.es{font-style:italic;color:var(--pencil)}
   </header>
 
   <div class="support" id="support">
-    <div class="supportBtns" id="supportBtns"></div>
+    <div class="supportBtns" id="topBtns"></div>
   </div>
 
   <div class="tabs" role="tablist">
@@ -362,6 +418,17 @@ td.es{font-style:italic;color:var(--pencil)}
       Anything else opens in the dictionary you choose — nothing is sent until you pick one.
     </div>
   </div>
+
+  <section class="donate" id="donate">
+    <div class="donateGlow" aria-hidden="true"></div>
+    <div class="donateInner">
+      <div class="donateHeart" aria-hidden="true">☕</div>
+      <h2 class="donateTitle">Apóyame · Support me</h2>
+      <p class="donateSub">Esta app es gratis y sin anuncios. Si te ayuda a aprender, cualquier aporte me anima a seguir mejorándola. 💙</p>
+      <p class="donateSub donateSubEn">This app is free and ad-free. If it helps you learn, any contribution keeps me improving it. Thank you!</p>
+      <div class="donateBtns" id="donateBtns"></div>
+    </div>
+  </section>
 </div>
 
 <script>
@@ -812,52 +879,54 @@ function renderLocal(hit,dir){
   box.innerHTML=h;
 }
 
-// --- support footer ---
+// --- support: GitHub star up top, donations in the bottom section ---
 function buildSupport(){
-  const box=document.getElementById('supportBtns');
-  const wrap=document.getElementById('support');
+  const top=document.getElementById('topBtns');
+  const dono=document.getElementById('donateBtns');
+  const topWrap=document.getElementById('support');
+  const donoWrap=document.getElementById('donate');
   const hasRepo = CONFIG.githubUser && CONFIG.githubRepo && CONFIG.githubUser!=='your-username';
-  box.innerHTML='';
+  top.innerHTML=''; dono.innerHTML='';
 
-  const add=el=>box.appendChild(el);
-
+  // ---- top bar: only the GitHub star ----
   if(hasRepo){
     const a=document.createElement('a');
     a.className='supBtn star';
     a.href=`https://github.com/${CONFIG.githubUser}/${CONFIG.githubRepo}`;
     a.target='_blank'; a.rel='noopener';
     a.innerHTML=`<span>⭐</span> Star on GitHub <span class="starCount" id="starCount"></span>`;
-    add(a);
+    top.appendChild(a);
   }
+  topWrap.style.display = top.children.length ? '' : 'none';
+
+  // ---- bottom section: the donation buttons ----
   if(CONFIG.kofi){
     const a=document.createElement('a');
-    a.className='supBtn coffee';
+    a.className='donoBtn kofi';
     a.href='https://ko-fi.com/'+encodeURIComponent(CONFIG.kofi);
     a.target='_blank'; a.rel='noopener';
-    a.innerHTML=`<span>☕</span> Ko-fi`;
-    add(a);
+    a.innerHTML=`<span class="dIco">☕</span><span class="dTxt"><b>Ko-fi</b><small>Con tarjeta · By card</small></span><span class="dGo">↗</span>`;
+    dono.appendChild(a);
   }
   if(CONFIG.nequi){
     const b=document.createElement('button');
-    b.className='supBtn local';
-    b.title="Copies the number and opens Nequi's PSE page — paste it there and pay from your bank";
-    b.innerHTML=`<span>📱</span> <span class="payLabel">Nequi</span> <span class="payNum"></span> <span class="copyHint">PSE</span>`;
-    // textContent, not string interpolation: any characters are safe here
-    b.querySelector('.payNum').textContent=CONFIG.nequi;
+    b.className='donoBtn';
+    b.title="Copia el número y abre la página PSE de Nequi · Copies the number and opens Nequi's PSE page";
+    b.innerHTML=`<span class="dIco">📱</span><span class="dTxt"><b>Nequi</b><small class="dNum"></small></span><span class="dGo">PSE</span>`;
+    b.querySelector('.dNum').textContent=CONFIG.nequi;
     b.addEventListener('click',()=>nequiPSE(CONFIG.nequi));
-    add(b);
+    dono.appendChild(b);
   }
   if(CONFIG.breb){
     const b=document.createElement('button');
-    b.className='supBtn local';
-    b.title='Copies the Bre-B key so you can paste it in your bank app';
-    b.innerHTML=`<span>🔑</span> <span class="payLabel">Bre-B</span> <span class="payNum"></span> <span class="copyHint">copy</span>`;
-    b.querySelector('.payNum').textContent=CONFIG.breb;
+    b.className='donoBtn';
+    b.title='Copia la llave Bre-B para pegarla en tu banco · Copies the Bre-B key to paste in your bank app';
+    b.innerHTML=`<span class="dIco">🔑</span><span class="dTxt"><b>Bre-B</b><small class="dNum"></small></span><span class="dGo">copiar</span>`;
+    b.querySelector('.dNum').textContent=CONFIG.breb;
     b.addEventListener('click',()=>copyPay('Bre-B',CONFIG.breb));
-    add(b);
+    dono.appendChild(b);
   }
-
-  if(!box.children.length){ wrap.style.display='none'; return }
+  donoWrap.style.display = dono.children.length ? '' : 'none';
 
   // Live star count — GitHub's public API, no key, no cost
   if(hasRepo){
@@ -867,7 +936,7 @@ function buildSupport(){
         const el=document.getElementById('starCount');
         if(el) el.textContent=d.stargazers_count;
       }})
-      .catch(()=>{}); // offline or rate-limited: just show no number
+      .catch(()=>{});
   }
 }
 
