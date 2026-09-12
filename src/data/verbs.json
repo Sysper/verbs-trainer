@@ -1,0 +1,1702 @@
+[
+  {
+    "base": "be",
+    "past": "was/were",
+    "part": "been",
+    "es": "ser / estar",
+    "type": "I",
+    "ph": [
+      "bi",
+      "uós / uér",
+      "bin"
+    ]
+  },
+  {
+    "base": "become",
+    "past": "became",
+    "part": "become",
+    "es": "convertirse en",
+    "type": "I",
+    "ph": [
+      "bicám",
+      "bikéim",
+      "bicám"
+    ]
+  },
+  {
+    "base": "begin",
+    "past": "began",
+    "part": "begun",
+    "es": "empezar",
+    "type": "I",
+    "ph": [
+      "biguín",
+      "bigán",
+      "bigán"
+    ]
+  },
+  {
+    "base": "bend",
+    "past": "bent",
+    "part": "bent",
+    "es": "doblar",
+    "type": "I",
+    "ph": [
+      "bend",
+      "bent",
+      "bent"
+    ]
+  },
+  {
+    "base": "bet",
+    "past": "bet",
+    "part": "bet",
+    "es": "apostar",
+    "type": "I",
+    "ph": [
+      "bet",
+      "bet",
+      "bet"
+    ]
+  },
+  {
+    "base": "bite",
+    "past": "bit",
+    "part": "bitten",
+    "es": "morder",
+    "type": "I",
+    "ph": [
+      "báit",
+      "bit",
+      "bíten"
+    ]
+  },
+  {
+    "base": "blow",
+    "past": "blew",
+    "part": "blown",
+    "es": "soplar",
+    "type": "I",
+    "ph": [
+      "blóu",
+      "blu",
+      "blóun"
+    ]
+  },
+  {
+    "base": "break",
+    "past": "broke",
+    "part": "broken",
+    "es": "romper",
+    "type": "I",
+    "ph": [
+      "bréik",
+      "bróuk",
+      "bróuken"
+    ]
+  },
+  {
+    "base": "bring",
+    "past": "brought",
+    "part": "brought",
+    "es": "traer",
+    "type": "I",
+    "ph": [
+      "bring",
+      "brot",
+      "brot"
+    ]
+  },
+  {
+    "base": "build",
+    "past": "built",
+    "part": "built",
+    "es": "construir",
+    "type": "I",
+    "ph": [
+      "bild",
+      "bilt",
+      "bilt"
+    ]
+  },
+  {
+    "base": "buy",
+    "past": "bought",
+    "part": "bought",
+    "es": "comprar",
+    "type": "I",
+    "ph": [
+      "bái",
+      "bot",
+      "bot"
+    ]
+  },
+  {
+    "base": "catch",
+    "past": "caught",
+    "part": "caught",
+    "es": "atrapar",
+    "type": "I",
+    "ph": [
+      "cach",
+      "cot",
+      "cot"
+    ]
+  },
+  {
+    "base": "choose",
+    "past": "chose",
+    "part": "chosen",
+    "es": "elegir",
+    "type": "I",
+    "ph": [
+      "chus",
+      "chóus",
+      "chóusen"
+    ]
+  },
+  {
+    "base": "come",
+    "past": "came",
+    "part": "come",
+    "es": "venir",
+    "type": "I",
+    "ph": [
+      "cam",
+      "kéim",
+      "cam"
+    ]
+  },
+  {
+    "base": "cost",
+    "past": "cost",
+    "part": "cost",
+    "es": "costar",
+    "type": "I",
+    "ph": [
+      "cost",
+      "cost",
+      "cost"
+    ]
+  },
+  {
+    "base": "cut",
+    "past": "cut",
+    "part": "cut",
+    "es": "cortar",
+    "type": "I",
+    "ph": [
+      "cat",
+      "cat",
+      "cat"
+    ]
+  },
+  {
+    "base": "deal",
+    "past": "dealt",
+    "part": "dealt",
+    "es": "tratar / repartir",
+    "type": "I",
+    "ph": [
+      "dil",
+      "delt",
+      "delt"
+    ]
+  },
+  {
+    "base": "do",
+    "past": "did",
+    "part": "done",
+    "es": "hacer",
+    "type": "I",
+    "ph": [
+      "du",
+      "did",
+      "dan"
+    ]
+  },
+  {
+    "base": "draw",
+    "past": "drew",
+    "part": "drawn",
+    "es": "dibujar",
+    "type": "I",
+    "ph": [
+      "dro",
+      "dru",
+      "dron"
+    ]
+  },
+  {
+    "base": "drink",
+    "past": "drank",
+    "part": "drunk",
+    "es": "beber",
+    "type": "I",
+    "ph": [
+      "drink",
+      "drank",
+      "drank"
+    ]
+  },
+  {
+    "base": "drive",
+    "past": "drove",
+    "part": "driven",
+    "es": "conducir",
+    "type": "I",
+    "ph": [
+      "dráiv",
+      "dróuv",
+      "dríven"
+    ]
+  },
+  {
+    "base": "eat",
+    "past": "ate",
+    "part": "eaten",
+    "es": "comer",
+    "type": "I",
+    "ph": [
+      "it",
+      "éit",
+      "íten"
+    ]
+  },
+  {
+    "base": "fall",
+    "past": "fell",
+    "part": "fallen",
+    "es": "caer",
+    "type": "I",
+    "ph": [
+      "fol",
+      "fel",
+      "fólen"
+    ]
+  },
+  {
+    "base": "feed",
+    "past": "fed",
+    "part": "fed",
+    "es": "alimentar",
+    "type": "I",
+    "ph": [
+      "fid",
+      "fed",
+      "fed"
+    ]
+  },
+  {
+    "base": "feel",
+    "past": "felt",
+    "part": "felt",
+    "es": "sentir",
+    "type": "I",
+    "ph": [
+      "fil",
+      "felt",
+      "felt"
+    ]
+  },
+  {
+    "base": "fight",
+    "past": "fought",
+    "part": "fought",
+    "es": "pelear",
+    "type": "I",
+    "ph": [
+      "fáit",
+      "fot",
+      "fot"
+    ]
+  },
+  {
+    "base": "find",
+    "past": "found",
+    "part": "found",
+    "es": "encontrar",
+    "type": "I",
+    "ph": [
+      "fáind",
+      "fáund",
+      "fáund"
+    ]
+  },
+  {
+    "base": "fly",
+    "past": "flew",
+    "part": "flown",
+    "es": "volar",
+    "type": "I",
+    "ph": [
+      "flái",
+      "flu",
+      "flóun"
+    ]
+  },
+  {
+    "base": "forget",
+    "past": "forgot",
+    "part": "forgotten",
+    "es": "olvidar",
+    "type": "I",
+    "ph": [
+      "forguét",
+      "forgót",
+      "forgóten"
+    ]
+  },
+  {
+    "base": "forgive",
+    "past": "forgave",
+    "part": "forgiven",
+    "es": "perdonar",
+    "type": "I",
+    "ph": [
+      "forguív",
+      "forguéiv",
+      "forguíven"
+    ]
+  },
+  {
+    "base": "freeze",
+    "past": "froze",
+    "part": "frozen",
+    "es": "congelar",
+    "type": "I",
+    "ph": [
+      "fris",
+      "fróus",
+      "fróusen"
+    ]
+  },
+  {
+    "base": "get",
+    "past": "got",
+    "part": "got/gotten",
+    "es": "obtener / conseguir",
+    "type": "I",
+    "ph": [
+      "guet",
+      "got",
+      "got / góten"
+    ]
+  },
+  {
+    "base": "give",
+    "past": "gave",
+    "part": "given",
+    "es": "dar",
+    "type": "I",
+    "ph": [
+      "guiv",
+      "guéiv",
+      "guíven"
+    ]
+  },
+  {
+    "base": "go",
+    "past": "went",
+    "part": "gone",
+    "es": "ir",
+    "type": "I",
+    "ph": [
+      "góu",
+      "uént",
+      "gon"
+    ]
+  },
+  {
+    "base": "grow",
+    "past": "grew",
+    "part": "grown",
+    "es": "crecer",
+    "type": "I",
+    "ph": [
+      "gróu",
+      "gru",
+      "gróun"
+    ]
+  },
+  {
+    "base": "hang",
+    "past": "hung",
+    "part": "hung",
+    "es": "colgar",
+    "type": "I",
+    "ph": [
+      "jang",
+      "jang",
+      "jang"
+    ]
+  },
+  {
+    "base": "have",
+    "past": "had",
+    "part": "had",
+    "es": "tener",
+    "type": "I",
+    "ph": [
+      "jav",
+      "jad",
+      "jad"
+    ]
+  },
+  {
+    "base": "hear",
+    "past": "heard",
+    "part": "heard",
+    "es": "oír",
+    "type": "I",
+    "ph": [
+      "jíer",
+      "jerd",
+      "jerd"
+    ]
+  },
+  {
+    "base": "hide",
+    "past": "hid",
+    "part": "hidden",
+    "es": "esconder",
+    "type": "I",
+    "ph": [
+      "jáid",
+      "jid",
+      "jíden"
+    ]
+  },
+  {
+    "base": "hit",
+    "past": "hit",
+    "part": "hit",
+    "es": "golpear",
+    "type": "I",
+    "ph": [
+      "jit",
+      "jit",
+      "jit"
+    ]
+  },
+  {
+    "base": "hold",
+    "past": "held",
+    "part": "held",
+    "es": "sostener",
+    "type": "I",
+    "ph": [
+      "jóuld",
+      "jeld",
+      "jeld"
+    ]
+  },
+  {
+    "base": "hurt",
+    "past": "hurt",
+    "part": "hurt",
+    "es": "herir / doler",
+    "type": "I",
+    "ph": [
+      "jert",
+      "jert",
+      "jert"
+    ]
+  },
+  {
+    "base": "keep",
+    "past": "kept",
+    "part": "kept",
+    "es": "mantener / guardar",
+    "type": "I",
+    "ph": [
+      "kip",
+      "kept",
+      "kept"
+    ]
+  },
+  {
+    "base": "know",
+    "past": "knew",
+    "part": "known",
+    "es": "saber / conocer",
+    "type": "I",
+    "ph": [
+      "nóu",
+      "niú",
+      "nóun"
+    ]
+  },
+  {
+    "base": "lay",
+    "past": "laid",
+    "part": "laid",
+    "es": "poner / colocar",
+    "type": "I",
+    "ph": [
+      "léi",
+      "léid",
+      "léid"
+    ]
+  },
+  {
+    "base": "lead",
+    "past": "led",
+    "part": "led",
+    "es": "liderar / guiar",
+    "type": "I",
+    "ph": [
+      "lid",
+      "led",
+      "led"
+    ]
+  },
+  {
+    "base": "learn",
+    "past": "learned/learnt",
+    "part": "learned/learnt",
+    "es": "aprender",
+    "type": "I",
+    "ph": [
+      "lern",
+      "lernd",
+      "lernd"
+    ]
+  },
+  {
+    "base": "leave",
+    "past": "left",
+    "part": "left",
+    "es": "salir / dejar",
+    "type": "I",
+    "ph": [
+      "liv",
+      "left",
+      "left"
+    ]
+  },
+  {
+    "base": "lend",
+    "past": "lent",
+    "part": "lent",
+    "es": "prestar",
+    "type": "I",
+    "ph": [
+      "lend",
+      "lent",
+      "lent"
+    ]
+  },
+  {
+    "base": "let",
+    "past": "let",
+    "part": "let",
+    "es": "permitir / dejar",
+    "type": "I",
+    "ph": [
+      "let",
+      "let",
+      "let"
+    ]
+  },
+  {
+    "base": "lie",
+    "past": "lay",
+    "part": "lain",
+    "es": "tumbarse / yacer",
+    "type": "I",
+    "ph": [
+      "lái",
+      "léi",
+      "léin"
+    ]
+  },
+  {
+    "base": "lose",
+    "past": "lost",
+    "part": "lost",
+    "es": "perder",
+    "type": "I",
+    "ph": [
+      "lus",
+      "lost",
+      "lost"
+    ]
+  },
+  {
+    "base": "make",
+    "past": "made",
+    "part": "made",
+    "es": "hacer / fabricar",
+    "type": "I",
+    "ph": [
+      "méik",
+      "méid",
+      "méid"
+    ]
+  },
+  {
+    "base": "mean",
+    "past": "meant",
+    "part": "meant",
+    "es": "significar",
+    "type": "I",
+    "ph": [
+      "min",
+      "ment",
+      "ment"
+    ]
+  },
+  {
+    "base": "meet",
+    "past": "met",
+    "part": "met",
+    "es": "conocer / reunirse",
+    "type": "I",
+    "ph": [
+      "mit",
+      "met",
+      "met"
+    ]
+  },
+  {
+    "base": "pay",
+    "past": "paid",
+    "part": "paid",
+    "es": "pagar",
+    "type": "I",
+    "ph": [
+      "péi",
+      "péid",
+      "péid"
+    ]
+  },
+  {
+    "base": "put",
+    "past": "put",
+    "part": "put",
+    "es": "poner",
+    "type": "I",
+    "ph": [
+      "put",
+      "put",
+      "put"
+    ]
+  },
+  {
+    "base": "quit",
+    "past": "quit",
+    "part": "quit",
+    "es": "renunciar / dejar",
+    "type": "I",
+    "ph": [
+      "cuít",
+      "cuít",
+      "cuít"
+    ]
+  },
+  {
+    "base": "read",
+    "past": "read",
+    "part": "read",
+    "es": "leer",
+    "type": "I",
+    "ph": [
+      "rid",
+      "red",
+      "red"
+    ]
+  },
+  {
+    "base": "ride",
+    "past": "rode",
+    "part": "ridden",
+    "es": "montar",
+    "type": "I",
+    "ph": [
+      "ráid",
+      "róud",
+      "ríden"
+    ]
+  },
+  {
+    "base": "ring",
+    "past": "rang",
+    "part": "rung",
+    "es": "sonar / llamar",
+    "type": "I",
+    "ph": [
+      "ring",
+      "rang",
+      "rang"
+    ]
+  },
+  {
+    "base": "rise",
+    "past": "rose",
+    "part": "risen",
+    "es": "subir / levantarse",
+    "type": "I",
+    "ph": [
+      "ráis",
+      "róus",
+      "rísen"
+    ]
+  },
+  {
+    "base": "run",
+    "past": "ran",
+    "part": "run",
+    "es": "correr",
+    "type": "I",
+    "ph": [
+      "ran",
+      "ran",
+      "ran"
+    ]
+  },
+  {
+    "base": "say",
+    "past": "said",
+    "part": "said",
+    "es": "decir",
+    "type": "I",
+    "ph": [
+      "séi",
+      "sed",
+      "sed"
+    ]
+  },
+  {
+    "base": "see",
+    "past": "saw",
+    "part": "seen",
+    "es": "ver",
+    "type": "I",
+    "ph": [
+      "si",
+      "so",
+      "sin"
+    ]
+  },
+  {
+    "base": "sell",
+    "past": "sold",
+    "part": "sold",
+    "es": "vender",
+    "type": "I",
+    "ph": [
+      "sel",
+      "sóuld",
+      "sóuld"
+    ]
+  },
+  {
+    "base": "send",
+    "past": "sent",
+    "part": "sent",
+    "es": "enviar",
+    "type": "I",
+    "ph": [
+      "send",
+      "sent",
+      "sent"
+    ]
+  },
+  {
+    "base": "set",
+    "past": "set",
+    "part": "set",
+    "es": "fijar / establecer",
+    "type": "I",
+    "ph": [
+      "set",
+      "set",
+      "set"
+    ]
+  },
+  {
+    "base": "shake",
+    "past": "shook",
+    "part": "shaken",
+    "es": "sacudir / agitar",
+    "type": "I",
+    "ph": [
+      "shéik",
+      "shuk",
+      "shéiken"
+    ]
+  },
+  {
+    "base": "shine",
+    "past": "shone",
+    "part": "shone",
+    "es": "brillar",
+    "type": "I",
+    "ph": [
+      "sháin",
+      "shóun",
+      "shóun"
+    ]
+  },
+  {
+    "base": "shoot",
+    "past": "shot",
+    "part": "shot",
+    "es": "disparar",
+    "type": "I",
+    "ph": [
+      "shut",
+      "shot",
+      "shot"
+    ]
+  },
+  {
+    "base": "show",
+    "past": "showed",
+    "part": "shown",
+    "es": "mostrar",
+    "type": "I",
+    "ph": [
+      "shóu",
+      "shóud",
+      "shóun"
+    ]
+  },
+  {
+    "base": "shut",
+    "past": "shut",
+    "part": "shut",
+    "es": "cerrar",
+    "type": "I",
+    "ph": [
+      "shat",
+      "shat",
+      "shat"
+    ]
+  },
+  {
+    "base": "sing",
+    "past": "sang",
+    "part": "sung",
+    "es": "cantar",
+    "type": "I",
+    "ph": [
+      "sing",
+      "sang",
+      "sang"
+    ]
+  },
+  {
+    "base": "sink",
+    "past": "sank",
+    "part": "sunk",
+    "es": "hundir",
+    "type": "I",
+    "ph": [
+      "sink",
+      "sank",
+      "sank"
+    ]
+  },
+  {
+    "base": "sit",
+    "past": "sat",
+    "part": "sat",
+    "es": "sentarse",
+    "type": "I",
+    "ph": [
+      "sit",
+      "sat",
+      "sat"
+    ]
+  },
+  {
+    "base": "sleep",
+    "past": "slept",
+    "part": "slept",
+    "es": "dormir",
+    "type": "I",
+    "ph": [
+      "slip",
+      "slept",
+      "slept"
+    ]
+  },
+  {
+    "base": "speak",
+    "past": "spoke",
+    "part": "spoken",
+    "es": "hablar",
+    "type": "I",
+    "ph": [
+      "spik",
+      "spóuk",
+      "spóuken"
+    ]
+  },
+  {
+    "base": "spend",
+    "past": "spent",
+    "part": "spent",
+    "es": "gastar / pasar tiempo",
+    "type": "I",
+    "ph": [
+      "spend",
+      "spent",
+      "spent"
+    ]
+  },
+  {
+    "base": "stand",
+    "past": "stood",
+    "part": "stood",
+    "es": "estar de pie",
+    "type": "I",
+    "ph": [
+      "stand",
+      "stud",
+      "stud"
+    ]
+  },
+  {
+    "base": "steal",
+    "past": "stole",
+    "part": "stolen",
+    "es": "robar",
+    "type": "I",
+    "ph": [
+      "stil",
+      "stóul",
+      "stóulen"
+    ]
+  },
+  {
+    "base": "stick",
+    "past": "stuck",
+    "part": "stuck",
+    "es": "pegar / atascar",
+    "type": "I",
+    "ph": [
+      "stik",
+      "stak",
+      "stak"
+    ]
+  },
+  {
+    "base": "swim",
+    "past": "swam",
+    "part": "swum",
+    "es": "nadar",
+    "type": "I",
+    "ph": [
+      "suím",
+      "suám",
+      "suám"
+    ]
+  },
+  {
+    "base": "take",
+    "past": "took",
+    "part": "taken",
+    "es": "tomar / llevar",
+    "type": "I",
+    "ph": [
+      "téik",
+      "tuk",
+      "téiken"
+    ]
+  },
+  {
+    "base": "teach",
+    "past": "taught",
+    "part": "taught",
+    "es": "enseñar",
+    "type": "I",
+    "ph": [
+      "tich",
+      "tot",
+      "tot"
+    ]
+  },
+  {
+    "base": "tear",
+    "past": "tore",
+    "part": "torn",
+    "es": "rasgar",
+    "type": "I",
+    "ph": [
+      "ter",
+      "tor",
+      "torn"
+    ]
+  },
+  {
+    "base": "tell",
+    "past": "told",
+    "part": "told",
+    "es": "contar / decir",
+    "type": "I",
+    "ph": [
+      "tel",
+      "tóuld",
+      "tóuld"
+    ]
+  },
+  {
+    "base": "think",
+    "past": "thought",
+    "part": "thought",
+    "es": "pensar",
+    "type": "I",
+    "ph": [
+      "zink",
+      "zot",
+      "zot"
+    ]
+  },
+  {
+    "base": "throw",
+    "past": "threw",
+    "part": "thrown",
+    "es": "lanzar",
+    "type": "I",
+    "ph": [
+      "zróu",
+      "zru",
+      "zróun"
+    ]
+  },
+  {
+    "base": "understand",
+    "past": "understood",
+    "part": "understood",
+    "es": "entender",
+    "type": "I",
+    "ph": [
+      "anderstánd",
+      "anderstúd",
+      "anderstúd"
+    ]
+  },
+  {
+    "base": "wake",
+    "past": "woke",
+    "part": "woken",
+    "es": "despertar",
+    "type": "I",
+    "ph": [
+      "uéik",
+      "uóuk",
+      "uóuken"
+    ]
+  },
+  {
+    "base": "wear",
+    "past": "wore",
+    "part": "worn",
+    "es": "llevar puesto",
+    "type": "I",
+    "ph": [
+      "uér",
+      "uór",
+      "uórn"
+    ]
+  },
+  {
+    "base": "win",
+    "past": "won",
+    "part": "won",
+    "es": "ganar",
+    "type": "I",
+    "ph": [
+      "uín",
+      "uón",
+      "uón"
+    ]
+  },
+  {
+    "base": "write",
+    "past": "wrote",
+    "part": "written",
+    "es": "escribir",
+    "type": "I",
+    "ph": [
+      "ráit",
+      "róut",
+      "ríten"
+    ]
+  },
+  {
+    "base": "work",
+    "past": "worked",
+    "part": "worked",
+    "es": "trabajar",
+    "type": "R",
+    "ph": [
+      "uérk",
+      "uérkt",
+      "uérkt"
+    ],
+    "ed": "t"
+  },
+  {
+    "base": "walk",
+    "past": "walked",
+    "part": "walked",
+    "es": "caminar",
+    "type": "R",
+    "ph": [
+      "uók",
+      "uókt",
+      "uókt"
+    ],
+    "ed": "t"
+  },
+  {
+    "base": "talk",
+    "past": "talked",
+    "part": "talked",
+    "es": "hablar / conversar",
+    "type": "R",
+    "ph": [
+      "tok",
+      "tokt",
+      "tokt"
+    ],
+    "ed": "t"
+  },
+  {
+    "base": "look",
+    "past": "looked",
+    "part": "looked",
+    "es": "mirar",
+    "type": "R",
+    "ph": [
+      "luk",
+      "lukt",
+      "lukt"
+    ],
+    "ed": "t"
+  },
+  {
+    "base": "cook",
+    "past": "cooked",
+    "part": "cooked",
+    "es": "cocinar",
+    "type": "R",
+    "ph": [
+      "cuk",
+      "cukt",
+      "cukt"
+    ],
+    "ed": "t"
+  },
+  {
+    "base": "help",
+    "past": "helped",
+    "part": "helped",
+    "es": "ayudar",
+    "type": "R",
+    "ph": [
+      "jelp",
+      "jelpt",
+      "jelpt"
+    ],
+    "ed": "t"
+  },
+  {
+    "base": "ask",
+    "past": "asked",
+    "part": "asked",
+    "es": "preguntar / pedir",
+    "type": "R",
+    "ph": [
+      "ask",
+      "askt",
+      "askt"
+    ],
+    "ed": "t"
+  },
+  {
+    "base": "watch",
+    "past": "watched",
+    "part": "watched",
+    "es": "ver / observar",
+    "type": "R",
+    "ph": [
+      "uóch",
+      "uócht",
+      "uócht"
+    ],
+    "ed": "t"
+  },
+  {
+    "base": "wash",
+    "past": "washed",
+    "part": "washed",
+    "es": "lavar",
+    "type": "R",
+    "ph": [
+      "uósh",
+      "uósht",
+      "uósht"
+    ],
+    "ed": "t"
+  },
+  {
+    "base": "finish",
+    "past": "finished",
+    "part": "finished",
+    "es": "terminar",
+    "type": "R",
+    "ph": [
+      "fínish",
+      "fínisht",
+      "fínisht"
+    ],
+    "ed": "t"
+  },
+  {
+    "base": "stop",
+    "past": "stopped",
+    "part": "stopped",
+    "es": "parar / detener",
+    "type": "R",
+    "ph": [
+      "stop",
+      "stopt",
+      "stopt"
+    ],
+    "ed": "t"
+  },
+  {
+    "base": "dance",
+    "past": "danced",
+    "part": "danced",
+    "es": "bailar",
+    "type": "R",
+    "ph": [
+      "dans",
+      "danst",
+      "danst"
+    ],
+    "ed": "t"
+  },
+  {
+    "base": "laugh",
+    "past": "laughed",
+    "part": "laughed",
+    "es": "reír",
+    "type": "R",
+    "ph": [
+      "laf",
+      "laft",
+      "laft"
+    ],
+    "ed": "t"
+  },
+  {
+    "base": "hope",
+    "past": "hoped",
+    "part": "hoped",
+    "es": "esperar (desear)",
+    "type": "R",
+    "ph": [
+      "jóup",
+      "jóupt",
+      "jóupt"
+    ],
+    "ed": "t"
+  },
+  {
+    "base": "miss",
+    "past": "missed",
+    "part": "missed",
+    "es": "extrañar / perder",
+    "type": "R",
+    "ph": [
+      "mis",
+      "mist",
+      "mist"
+    ],
+    "ed": "t"
+  },
+  {
+    "base": "play",
+    "past": "played",
+    "part": "played",
+    "es": "jugar / tocar",
+    "type": "R",
+    "ph": [
+      "pléi",
+      "pléid",
+      "pléid"
+    ],
+    "ed": "d"
+  },
+  {
+    "base": "call",
+    "past": "called",
+    "part": "called",
+    "es": "llamar",
+    "type": "R",
+    "ph": [
+      "col",
+      "cold",
+      "cold"
+    ],
+    "ed": "d"
+  },
+  {
+    "base": "live",
+    "past": "lived",
+    "part": "lived",
+    "es": "vivir",
+    "type": "R",
+    "ph": [
+      "liv",
+      "livd",
+      "livd"
+    ],
+    "ed": "d"
+  },
+  {
+    "base": "love",
+    "past": "loved",
+    "part": "loved",
+    "es": "amar / encantar",
+    "type": "R",
+    "ph": [
+      "lav",
+      "lavd",
+      "lavd"
+    ],
+    "ed": "d"
+  },
+  {
+    "base": "listen",
+    "past": "listened",
+    "part": "listened",
+    "es": "escuchar",
+    "type": "R",
+    "ph": [
+      "lísen",
+      "lísend",
+      "lísend"
+    ],
+    "ed": "d"
+  },
+  {
+    "base": "answer",
+    "past": "answered",
+    "part": "answered",
+    "es": "responder",
+    "type": "R",
+    "ph": [
+      "ánser",
+      "ánserd",
+      "ánserd"
+    ],
+    "ed": "d"
+  },
+  {
+    "base": "arrive",
+    "past": "arrived",
+    "part": "arrived",
+    "es": "llegar",
+    "type": "R",
+    "ph": [
+      "arráiv",
+      "arráivd",
+      "arráivd"
+    ],
+    "ed": "d"
+  },
+  {
+    "base": "believe",
+    "past": "believed",
+    "part": "believed",
+    "es": "creer",
+    "type": "R",
+    "ph": [
+      "bilív",
+      "bilívd",
+      "bilívd"
+    ],
+    "ed": "d"
+  },
+  {
+    "base": "clean",
+    "past": "cleaned",
+    "part": "cleaned",
+    "es": "limpiar",
+    "type": "R",
+    "ph": [
+      "clin",
+      "clind",
+      "clind"
+    ],
+    "ed": "d"
+  },
+  {
+    "base": "enjoy",
+    "past": "enjoyed",
+    "part": "enjoyed",
+    "es": "disfrutar",
+    "type": "R",
+    "ph": [
+      "enchói",
+      "enchóid",
+      "enchóid"
+    ],
+    "ed": "d"
+  },
+  {
+    "base": "explain",
+    "past": "explained",
+    "part": "explained",
+    "es": "explicar",
+    "type": "R",
+    "ph": [
+      "ekspléin",
+      "ekspléind",
+      "ekspléind"
+    ],
+    "ed": "d"
+  },
+  {
+    "base": "follow",
+    "past": "followed",
+    "part": "followed",
+    "es": "seguir",
+    "type": "R",
+    "ph": [
+      "fólou",
+      "fóloud",
+      "fóloud"
+    ],
+    "ed": "d"
+  },
+  {
+    "base": "happen",
+    "past": "happened",
+    "part": "happened",
+    "es": "suceder / pasar",
+    "type": "R",
+    "ph": [
+      "jápen",
+      "jápend",
+      "jápend"
+    ],
+    "ed": "d"
+  },
+  {
+    "base": "move",
+    "past": "moved",
+    "part": "moved",
+    "es": "mover / mudarse",
+    "type": "R",
+    "ph": [
+      "muv",
+      "muvd",
+      "muvd"
+    ],
+    "ed": "d"
+  },
+  {
+    "base": "plan",
+    "past": "planned",
+    "part": "planned",
+    "es": "planear",
+    "type": "R",
+    "ph": [
+      "plan",
+      "pland",
+      "pland"
+    ],
+    "ed": "d"
+  },
+  {
+    "base": "stay",
+    "past": "stayed",
+    "part": "stayed",
+    "es": "quedarse",
+    "type": "R",
+    "ph": [
+      "stéi",
+      "stéid",
+      "stéid"
+    ],
+    "ed": "d"
+  },
+  {
+    "base": "study",
+    "past": "studied",
+    "part": "studied",
+    "es": "estudiar",
+    "type": "R",
+    "ph": [
+      "stádi",
+      "stádid",
+      "stádid"
+    ],
+    "ed": "d"
+  },
+  {
+    "base": "try",
+    "past": "tried",
+    "part": "tried",
+    "es": "intentar",
+    "type": "R",
+    "ph": [
+      "trái",
+      "tráid",
+      "tráid"
+    ],
+    "ed": "d"
+  },
+  {
+    "base": "use",
+    "past": "used",
+    "part": "used",
+    "es": "usar",
+    "type": "R",
+    "ph": [
+      "iús",
+      "iúsd",
+      "iúsd"
+    ],
+    "ed": "d"
+  },
+  {
+    "base": "want",
+    "past": "wanted",
+    "part": "wanted",
+    "es": "querer",
+    "type": "R",
+    "ph": [
+      "uónt",
+      "uóntid",
+      "uóntid"
+    ],
+    "ed": "id"
+  },
+  {
+    "base": "need",
+    "past": "needed",
+    "part": "needed",
+    "es": "necesitar",
+    "type": "R",
+    "ph": [
+      "nid",
+      "nídid",
+      "nídid"
+    ],
+    "ed": "id"
+  },
+  {
+    "base": "start",
+    "past": "started",
+    "part": "started",
+    "es": "empezar",
+    "type": "R",
+    "ph": [
+      "start",
+      "stártid",
+      "stártid"
+    ],
+    "ed": "id"
+  },
+  {
+    "base": "visit",
+    "past": "visited",
+    "part": "visited",
+    "es": "visitar",
+    "type": "R",
+    "ph": [
+      "vísit",
+      "vísitid",
+      "vísitid"
+    ],
+    "ed": "id"
+  },
+  {
+    "base": "wait",
+    "past": "waited",
+    "part": "waited",
+    "es": "esperar (aguardar)",
+    "type": "R",
+    "ph": [
+      "uéit",
+      "uéitid",
+      "uéitid"
+    ],
+    "ed": "id"
+  },
+  {
+    "base": "decide",
+    "past": "decided",
+    "part": "decided",
+    "es": "decidir",
+    "type": "R",
+    "ph": [
+      "disáid",
+      "disáidid",
+      "disáidid"
+    ],
+    "ed": "id"
+  },
+  {
+    "base": "end",
+    "past": "ended",
+    "part": "ended",
+    "es": "terminar / acabar",
+    "type": "R",
+    "ph": [
+      "end",
+      "éndid",
+      "éndid"
+    ],
+    "ed": "id"
+  },
+  {
+    "base": "invite",
+    "past": "invited",
+    "part": "invited",
+    "es": "invitar",
+    "type": "R",
+    "ph": [
+      "inváit",
+      "inváitid",
+      "inváitid"
+    ],
+    "ed": "id"
+  },
+  {
+    "base": "repeat",
+    "past": "repeated",
+    "part": "repeated",
+    "es": "repetir",
+    "type": "R",
+    "ph": [
+      "ripít",
+      "ripítid",
+      "ripítid"
+    ],
+    "ed": "id"
+  },
+  {
+    "base": "expect",
+    "past": "expected",
+    "part": "expected",
+    "es": "esperar (prever)",
+    "type": "R",
+    "ph": [
+      "ekspékt",
+      "ekspéktid",
+      "ekspéktid"
+    ],
+    "ed": "id"
+  }
+]

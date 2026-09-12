@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Verbs Trainer</title>
+<!--
+  GitHub Pages has no server-side routing: opening /verbs-trainer/login
+  directly returns this 404 page. It re-encodes the path into a query string
+  and bounces to index.html, where the snippet in <head> restores the real
+  URL before React Router boots. (Technique: rafgraph/spa-github-pages.)
+-->
+<script>
+  // Number of path segments that belong to the site itself, not to the route.
+  // 1 because the site lives at /verbs-trainer/.
+  var pathSegmentsToKeep = 1;
+  var l = window.location;
+  l.replace(
+    l.protocol + '//' + l.hostname + (l.port ? ':' + l.port : '') +
+    l.pathname.split('/').slice(0, 1 + pathSegmentsToKeep).join('/') + '/?/' +
+    l.pathname.slice(1).split('/').slice(pathSegmentsToKeep).join('/').replace(/&/g, '~and~') +
+    (l.search ? '&' + l.search.slice(1) : '') +
+    l.hash
+  );
+</script>
+</head>
+<body></body>
+</html>
