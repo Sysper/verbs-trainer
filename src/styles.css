@@ -87,9 +87,16 @@ h1 span{color:var(--blue)}
   .tab{padding:9px 12px;font-size:.8rem}
 }
 
-.score{display:flex;gap:10px;margin-bottom:16px}
-.chip{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:8px 14px;font-size:.8rem;color:var(--pencil)}
-.chip b{display:block;font-family:system-ui,-apple-system,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif;font-size:1.15rem;color:var(--ink)}
+.score{display:flex;gap:8px;margin-bottom:14px}
+/* --chip-fs is shared by the plain chips and the button one: a <button> does
+   not inherit font-size, and `font:inherit` on it would pick up the body's
+   18px rather than this rule. */
+.chip{
+  --chip-fs:.72rem;
+  background:var(--card);border:1px solid var(--line);border-radius:10px;
+  padding:7px 12px;font-size:var(--chip-fs);color:var(--pencil);
+}
+.chip b{display:block;font-family:system-ui,-apple-system,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif;font-size:1rem;color:var(--ink);line-height:1.2}
 .chip.streak b{color:var(--blue)}
 
 .card{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:28px 24px;box-shadow:0 2px 10px var(--shadow)}
@@ -377,9 +384,12 @@ tbody td:first-child .badge{font-size:.55rem}
    Progress panel — saved progress (localStorage), added in the
    React rewrite. Reuses the palette variables above.
    ───────────────────────────────────────────────────────────── */
-.chip.clickable{cursor:pointer;text-align:left;font:inherit;transition:.15s}
+.chip.clickable{
+  cursor:pointer;text-align:left;transition:.15s;
+  font-family:inherit;font-size:var(--chip-fs);
+}
 .chip.clickable:hover{border-color:var(--blue)}
-.chip small{display:block;font-size:.68rem;color:var(--pencil);margin-top:1px}
+.chip small{display:block;font-size:.62rem;color:var(--pencil);margin-top:1px}
 .progressPanel{
   margin-top:14px;background:var(--card);border:1px solid var(--line);
   border-radius:var(--radius);padding:18px 20px;box-shadow:0 2px 10px var(--shadow);
@@ -477,23 +487,32 @@ tbody td:first-child .badge{font-size:.55rem}
   /* Clears the iOS home indicator instead of sitting under it. */
   bottom:calc(16px + env(safe-area-inset-bottom,0px));
   display:inline-flex;align-items:center;gap:8px;
-  border:1px solid var(--line);border-radius:999px;
-  background:var(--card);
-  color:var(--ink);cursor:pointer;
-  font:600 .82rem system-ui,-apple-system,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif;
-  padding:10px 16px 10px 13px;
-  box-shadow:0 4px 16px var(--shadow);
-  transition:transform .18s ease,box-shadow .18s ease,border-color .18s ease;
+  border:1px solid transparent;border-radius:999px;
+  /* Coffee terracotta into --ink, and --ink flips with the theme: the button
+     lands dark on the light page and light on the dark one, so it always
+     stands against the background instead of blending into it. */
+  background:linear-gradient(135deg,var(--amber),var(--ink));
+  /* --paper is the page background, so it is the opposite of --ink by
+     definition — light text on the dark gradient and vice versa. */
+  color:var(--paper);cursor:pointer;
+  font:700 .82rem system-ui,-apple-system,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif;
+  padding:11px 17px 11px 14px;
+  box-shadow:0 6px 20px var(--shadow);
+  /* Slight transparency so the gradient reads as present, not shouting.
+     Kept at .9: measured contrast once blended with the page is still above
+     the 4.5:1 AA threshold at the weaker end of the gradient. */
+  opacity:.9;
+  transition:transform .18s ease,box-shadow .18s ease,opacity .18s ease;
 }
 .coffeeFab:hover,.coffeeFab:focus-visible{
-  border-color:var(--blue);
-  transform:translateY(-2px);box-shadow:0 8px 24px var(--shadow);
+  opacity:1;
+  transform:translateY(-2px);box-shadow:0 10px 28px var(--shadow);
 }
 .coffeeFab:active{transform:translateY(0)}
 .coffeeFab.isOpen{opacity:0;pointer-events:none}
 .coffeeFab .cfIco{font-size:1.05rem;line-height:1}
 @media (prefers-reduced-motion:reduce){
-  .coffeeFab{transition:border-color .18s ease}
+  .coffeeFab{transition:opacity .18s ease}
   .coffeeFab:hover,.coffeeFab:focus-visible{transform:none}
 }
 
@@ -565,4 +584,29 @@ tbody td:first-child .badge{font-size:.55rem}
   /* Drops the English half of the label so the row never wraps. */
   .themeLabelEn{display:none}
   .supBtn,.themeBtn{padding:7px 11px;font-size:.72rem}
+}
+/* 320px phones: the pair is nowrap by design, so it has to shrink to fit
+   rather than spill past the edge. */
+@media (max-width:360px){
+  .wrap{padding-left:12px;padding-right:12px}
+  .supBtn,.themeBtn{padding:6px 9px;font-size:.66rem;gap:5px}
+  .supBtn .starCount{padding-left:5px}
+}
+
+/* ─────────────────────────────────────────────────────────────
+   Compact counters on phones. Placed after every other .chip rule
+   so it wins on source order, not on specificity tricks.
+   ───────────────────────────────────────────────────────────── */
+@media (max-width:560px){
+  .score{gap:5px;margin-bottom:12px}
+  .chip{
+    --chip-fs:.6rem;
+    flex:1;min-width:0;padding:6px 5px;border-radius:8px;text-align:center;
+  }
+  .chip b{font-size:.86rem}
+  /* "see stats" was a whole third line in every chip's height. The caret
+     carries the same meaning inline, and still flips with aria-expanded. */
+  .chip small{display:none}
+  .chip.clickable::after{content:' ▾';color:var(--blue)}
+  .chip.clickable[aria-expanded="true"]::after{content:' ▴'}
 }
