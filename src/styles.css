@@ -644,3 +644,41 @@ button.primary:disabled{opacity:.45;cursor:not-allowed;filter:none}
   .choice{padding:11px 8px;font-size:.9rem}
   .choices{gap:6px}
 }
+
+/* ─────────────────────────────────────────────────────────────
+   Start screen: the practice tab asks for a mode before dealing
+   the first verb, instead of silently defaulting to one.
+   ───────────────────────────────────────────────────────────── */
+.starter{
+  background:var(--card);border:1px solid var(--line);border-radius:var(--radius);
+  padding:28px 22px;box-shadow:0 2px 10px var(--shadow);text-align:center;
+}
+.starterTitle{font-size:clamp(1.2rem,4vw,1.5rem);font-weight:800;letter-spacing:-.02em;margin-bottom:6px}
+.starterSub{font-size:.8rem;color:var(--pencil);margin-bottom:20px;line-height:1.5}
+.starterGrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(11rem,1fr));gap:12px}
+.starterCard{
+  position:relative;display:flex;flex-direction:column;align-items:center;gap:5px;
+  border:1px solid var(--line);background:var(--paper);color:var(--ink);
+  border-radius:12px;padding:20px 16px 18px;cursor:pointer;transition:.15s;
+  font:inherit;text-align:center;
+}
+.starterCard:hover{border-color:var(--blue);transform:translateY(-2px);box-shadow:0 8px 22px var(--shadow)}
+.starterCard b{font-size:1rem;font-weight:700}
+.starterCard .scIco{font-size:1.7rem;line-height:1}
+.starterCard .scBlurb{font-size:.74rem;color:var(--pencil);line-height:1.5}
+/* Marks the mode from last time without preselecting it: the point of this
+   screen is that the choice is made on purpose. */
+.starterCard .scLast{
+  margin-top:7px;font:600 .6rem system-ui,-apple-system,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif;
+  text-transform:uppercase;letter-spacing:.06em;
+  color:var(--blue);background:var(--blue-soft);border-radius:999px;padding:3px 9px;
+}
+.starterCard.last{border-color:var(--blue)}
+@media (prefers-reduced-motion:reduce){
+  .starterCard:hover{transform:none}
+}
+@media (max-width:560px){
+  .starter{padding:22px 16px}
+  .starterCard{padding:16px 12px 14px}
+  .starterCard .scIco{font-size:1.5rem}
+}

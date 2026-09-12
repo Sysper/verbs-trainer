@@ -32,6 +32,8 @@ export default function Home() {
   const [transQuery, setTransQuery] = useState('');
   const [dirMode, setDirMode] = useState<DirMode>('auto');
   const [autoRun, setAutoRun] = useState(false);
+  /** Survives switching tabs, so the mode is asked once per visit. */
+  const [practiceStarted, setPracticeStarted] = useState(false);
 
   /** Hand the word from the verb list over to the Translate tab and run it. */
   const sendToTranslate = useCallback(() => {
@@ -95,7 +97,13 @@ export default function Home() {
           </div>
 
           {view === 'quiz' && (
-            <Practice progress={progress} onAnswer={record} onReset={reset} />
+            <Practice
+              progress={progress}
+              onAnswer={record}
+              onReset={reset}
+              started={practiceStarted}
+              onStart={() => setPracticeStarted(true)}
+            />
           )}
 
           {view === 'study' && (

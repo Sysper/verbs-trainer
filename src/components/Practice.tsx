@@ -10,16 +10,36 @@ interface Props {
   progress: Progress;
   onAnswer: (id: string, correct: boolean) => void;
   onReset: () => void;
+  /** False until a mode is picked, which is the first thing the tab asks. */
+  started: boolean;
+  onStart: () => void;
 }
 
 type SlotState = 'idle' | 'ok' | 'bad';
 
-const MODES: ReadonlyArray<[PracticeMode, string, string]> = [
-  ['write', '✍️', 'Escribir'],
-  ['choice', '🔘', 'Opción múltiple'],
+interface ModeInfo {
+  id: PracticeMode;
+  icon: string;
+  name: string;
+  blurb: string;
+}
+
+const MODES: readonly ModeInfo[] = [
+  {
+    id: 'write',
+    icon: '✍️',
+    name: 'Escribir',
+    blurb: 'Teclea el pasado y el participio. Cuesta más y se fija mejor.',
+  },
+  {
+    id: 'choice',
+    icon: '🔘',
+    name: 'Opción múltiple',
+    blurb: 'Elige entre cuatro formas parecidas. Más rápido para empezar.',
+  },
 ];
 
-export default function Practice({ progress, onAnswer, onReset }: Props) {
+export default function Practice({ progress, onAnswer, onReset, started, onStart }: Props) {
   const [current, setCurrent] = useState<Verb | null>(null);
   const [checked, setChecked] = useState(false);
   const [past, setPast] = useState('');
@@ -42,6 +62,11 @@ export default function Practice({ progress, onAnswer, onReset }: Props) {
   useEffect(() => {
     writeJSON(MODE_KEY, mode);
   }, [mode]);
+
+  /** The input only exists once practice has started, so focus it then. */
+  useEffect(() => {
+    if (started && mode === 'write') pastRef.current?.focus();
+  }, [started, mode]);
 
   const pastRef = useRef<HTMLInputElement>(null);
   const mainRef = useRef<HTMLButtonElement>(null);
@@ -124,13 +149,13 @@ export default function Practice({ progress, onAnswer, onReset }: Props) {
   /** Enter anywhere in the practice view checks or advances. */
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
-      if (e.key !== 'Enter') return;
+      if (e.key !== 'Enter' || !started) return;
       e.preventDefault();
       mainAction();
     };
     document.addEventListener('keydown', onKey);
     return () => document.removeEventListener('keydown', onKey);
-  }, [mainAction]);
+  }, [mainAction, started]);
 
   if (!current) return null;
 
@@ -176,23 +201,53 @@ export default function Practice({ progress, onAnswer, onReset }: Props) {
         </div>
       )}
 
-      <div className="modeRow" role="group" aria-label="Modo de práctica">
-        {MODES.map(([id, icon, label]) => (
+      {!started && (
+        <div className="starter">
+          <h2 className="starterTitle">¿Cómo quieres practicar?</h2>
+          <p className="starterSub">Elige un modo para empezar · podrás cambiarlo cuando quieras</p>
+          <div className="starterGrid">
+            {MODES.map((m) => (
+              <button
+                key={m.id}
+                className={`starterCard ${mode === m.id ? 'last' : ''}`}
+                onClick={() => {
+                  setMode(m.id);
+                  clearSlots();
+                  onStart();
+                }}
+              >
+                <span className="scIco" aria-hidden="true">
+                  {m.icon}
+                </span>
+                <b>{m.name}</b>
+                <span className="scBlurb">{m.blurb}</span>
+                {mode === m.id && <span className="scLast">último usado</span>}
+              </button>
+            ))}
+          </div>
+        </div>
+      )}
+
+      {started && (
+        <div className="modeRow" role="group" aria-label="Modo de práctica">
+        {MODES.map((m) => (
           <button
-            key={id}
-            className={`modeBtn ${mode === id ? 'active' : ''}`}
-            aria-pressed={mode === id}
+            key={m.id}
+            className={`modeBtn ${mode === m.id ? 'active' : ''}`}
+            aria-pressed={mode === m.id}
             onClick={() => {
-              if (id === mode) return;
-              setMode(id);
+              if (m.id === mode) return;
+              setMode(m.id);
               clearSlots();
             }}
           >
-            <span aria-hidden="true">{icon}</span> {label}
+            <span aria-hidden="true">{m.icon}</span> {m.name}
           </button>
-        ))}
-      </div>
+          ))}
+        </div>
+      )}
 
+      {started && (
       <div className="card" key={current.base}>
         <div className="eyebrow">
           Base form <span className={`badge ${current.type}`}>{current.type === 'I' ? 'IRREGULAR' : 'REGULAR'}</span>
@@ -267,6 +322,7 @@ export default function Practice({ progress, onAnswer, onReset }: Props) {
           Phonetics are an approximation for Spanish speakers — tap 🔊 for the real sound.
         </div>
       </div>
+      )}
     </div>
   );
 }
