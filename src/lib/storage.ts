@@ -10,6 +10,7 @@ const PREFIX = 'vt.';
 export const PROGRESS_KEY = `${PREFIX}progress`;
 export const THEME_KEY = `${PREFIX}theme`;
 export const SESSION_KEY = `${PREFIX}session`;
+export const MODE_KEY = `${PREFIX}mode`;
 
 export function readJSON<T>(key: string): T | null {
   try {

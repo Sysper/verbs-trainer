@@ -18,5 +18,7 @@ export type VerbType = 'I' | 'R';
 export type EdSound = 't' | 'd' | 'id';
 export type Filter = 'all' | VerbType;
 export type View = 'quiz' | 'study' | 'translate';
+/** How the practice card asks for the answer. */
+export type PracticeMode = 'write' | 'choice';
 export type Direction = 'en-es' | 'es-en';
 export type DirMode = 'auto' | Direction;

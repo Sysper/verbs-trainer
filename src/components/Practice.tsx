@@ -1,9 +1,9 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import type { Verb } from '../types';
-import { ED_LABELS, firstForm, matches, shuffle, verbId, VERBS } from '../lib/verbs';
+import type { PracticeMode, Verb } from '../types';
+import { buildOptions, ED_LABELS, firstForm, matches, shuffle, verbId, VERBS } from '../lib/verbs';
 import { say } from '../lib/speech';
 import type { Progress } from '../lib/storage';
-import { weakVerbs } from '../lib/storage';
+import { MODE_KEY, readJSON, weakVerbs, writeJSON } from '../lib/storage';
 import ProgressPanel from './ProgressPanel';
 
 interface Props {
@@ -13,6 +13,11 @@ interface Props {
 }
 
 type SlotState = 'idle' | 'ok' | 'bad';
+
+const MODES: ReadonlyArray<[PracticeMode, string, string]> = [
+  ['write', '✍️', 'Escribir'],
+  ['choice', '🔘', 'Opción múltiple'],
+];
 
 export default function Practice({ progress, onAnswer, onReset }: Props) {
   const [current, setCurrent] = useState<Verb | null>(null);
@@ -24,6 +29,19 @@ export default function Practice({ progress, onAnswer, onReset }: Props) {
   const [verdict, setVerdict] = useState<{ good: boolean; text: string } | null>(null);
   const [showStats, setShowStats] = useState(false);
   const [reviewMode, setReviewMode] = useState(false);
+  const [mode, setMode] = useState<PracticeMode>(() =>
+    readJSON<PracticeMode>(MODE_KEY) === 'choice' ? 'choice' : 'write',
+  );
+  /** Answer choices for the current verb. Empty while writing. */
+  const [options, setOptions] = useState<{ past: string[]; part: string[] }>({ past: [], part: [] });
+  const [picked, setPicked] = useState<{ past: string | null; part: string | null }>({
+    past: null,
+    part: null,
+  });
+
+  useEffect(() => {
+    writeJSON(MODE_KEY, mode);
+  }, [mode]);
 
   const pastRef = useRef<HTMLInputElement>(null);
   const mainRef = useRef<HTMLButtonElement>(null);
@@ -44,6 +62,7 @@ export default function Practice({ progress, onAnswer, onReset }: Props) {
   const clearSlots = useCallback(() => {
     setPast('');
     setPart('');
+    setPicked({ past: null, part: null });
     setPastState('idle');
     setPartState('idle');
     setVerdict(null);
@@ -55,9 +74,10 @@ export default function Practice({ progress, onAnswer, onReset }: Props) {
     const picked = source[source.length - 1] ?? null;
     deck.current = source.slice(0, -1);
     setCurrent(picked);
+    if (picked) setOptions({ past: buildOptions(picked, 'past'), part: buildOptions(picked, 'part') });
     clearSlots();
-    pastRef.current?.focus();
-  }, [activePool, clearSlots]);
+    if (mode === 'write') pastRef.current?.focus();
+  }, [activePool, clearSlots, mode]);
 
   /** A new pool (filter change or review toggle) starts a fresh deck. */
   useEffect(() => {
@@ -66,10 +86,16 @@ export default function Practice({ progress, onAnswer, onReset }: Props) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [activePool]);
 
+  /** What the user actually answered, whichever way the card asked. */
+  const answers =
+    mode === 'write' ? { past, part } : { past: picked.past ?? '', part: picked.part ?? '' };
+  /** Multiple choice has nothing to grade until both forms are picked. */
+  const ready = mode === 'write' || (picked.past !== null && picked.part !== null);
+
   const check = useCallback(() => {
     if (!current) return;
-    const goodPast = matches(past, current.past);
-    const goodPart = matches(part, current.part);
+    const goodPast = matches(answers.past, current.past);
+    const goodPart = matches(answers.part, current.part);
     setPastState(goodPast ? 'ok' : 'bad');
     setPartState(goodPart ? 'ok' : 'bad');
     setChecked(true);
@@ -81,14 +107,14 @@ export default function Practice({ progress, onAnswer, onReset }: Props) {
         : { good: false, text: 'Almost — check the correct forms and listen to them.' },
     );
     onAnswer(verbId(current), allGood);
-    say(`${firstForm(current.past)}. ${firstForm(current.part)}`);
+    // Nothing is spoken on its own: audio only ever plays from a 🔊 button.
     window.setTimeout(() => mainRef.current?.focus(), 0);
-  }, [current, part, past, onAnswer]);
+  }, [current, answers.part, answers.past, onAnswer]);
 
   const mainAction = useCallback(() => {
     if (checked) nextVerb();
-    else check();
-  }, [check, checked, nextVerb]);
+    else if (ready) check();
+  }, [check, checked, nextVerb, ready]);
 
   const skipVerb = useCallback(() => {
     if (current) onAnswer(verbId(current), false);
@@ -150,6 +176,23 @@ export default function Practice({ progress, onAnswer, onReset }: Props) {
         </div>
       )}
 
+      <div className="modeRow" role="group" aria-label="Modo de práctica">
+        {MODES.map(([id, icon, label]) => (
+          <button
+            key={id}
+            className={`modeBtn ${mode === id ? 'active' : ''}`}
+            aria-pressed={mode === id}
+            onClick={() => {
+              if (id === mode) return;
+              setMode(id);
+              clearSlots();
+            }}
+          >
+            <span aria-hidden="true">{icon}</span> {label}
+          </button>
+        ))}
+      </div>
+
       <div className="card" key={current.base}>
         <div className="eyebrow">
           Base form <span className={`badge ${current.type}`}>{current.type === 'I' ? 'IRREGULAR' : 'REGULAR'}</span>
@@ -164,46 +207,35 @@ export default function Practice({ progress, onAnswer, onReset }: Props) {
         <div className="meaning">{current.es}</div>
 
         <div className="slots">
-          <div className={`slot ${pastState === 'idle' ? '' : pastState}`}>
-            <label htmlFor="inPast">Past simple</label>
-            <input
-              id="inPast"
-              ref={pastRef}
-              value={past}
-              disabled={checked}
-              onChange={(e) => setPast(e.target.value)}
-              autoComplete="off"
-              autoCapitalize="off"
-              spellCheck={false}
-            />
-            <div className="answer">
-              <span className="word">{current.past}</span>
-              <span className="aph">/{current.ph[1]}/</span>
-              <button className="speak sm" title="Listen" onClick={() => say(firstForm(current.past))}>
-                🔊
-              </button>
-            </div>
-          </div>
-
-          <div className={`slot ${partState === 'idle' ? '' : partState}`}>
-            <label htmlFor="inPart">Past participle</label>
-            <input
-              id="inPart"
-              value={part}
-              disabled={checked}
-              onChange={(e) => setPart(e.target.value)}
-              autoComplete="off"
-              autoCapitalize="off"
-              spellCheck={false}
-            />
-            <div className="answer">
-              <span className="word">{current.part}</span>
-              <span className="aph">/{current.ph[2]}/</span>
-              <button className="speak sm" title="Listen" onClick={() => say(firstForm(current.part))}>
-                🔊
-              </button>
-            </div>
-          </div>
+          <Slot
+            id="inPast"
+            label="Past simple"
+            state={pastState}
+            mode={mode}
+            checked={checked}
+            value={past}
+            onValue={setPast}
+            options={options.past}
+            picked={picked.past}
+            onPick={(o) => setPicked((p) => ({ ...p, past: o }))}
+            answer={current.past}
+            phonetic={current.ph[1]}
+            inputRef={pastRef}
+          />
+          <Slot
+            id="inPart"
+            label="Past participle"
+            state={partState}
+            mode={mode}
+            checked={checked}
+            value={part}
+            onValue={setPart}
+            options={options.part}
+            picked={picked.part}
+            onPick={(o) => setPicked((p) => ({ ...p, part: o }))}
+            answer={current.part}
+            phonetic={current.ph[2]}
+          />
         </div>
 
         {checked && edLabel && (
@@ -214,7 +246,7 @@ export default function Practice({ progress, onAnswer, onReset }: Props) {
         )}
 
         <div className="actions">
-          <button className="primary" ref={mainRef} onClick={mainAction}>
+          <button className="primary" ref={mainRef} onClick={mainAction} disabled={!checked && !ready}>
             {checked ? 'Next' : 'Check'}
           </button>
           <button className="ghost" onClick={skipVerb}>
@@ -222,10 +254,104 @@ export default function Practice({ progress, onAnswer, onReset }: Props) {
           </button>
         </div>
         <div className="hint">
-          Press <b>Enter</b> to check · alternative forms are accepted (got/gotten, learnt/learned)
+          {mode === 'write' ? (
+            <>
+              Press <b>Enter</b> to check · alternative forms are accepted (got/gotten, learnt/learned)
+            </>
+          ) : (
+            <>
+              Pick one option for each form, then press <b>Enter</b> or Check
+            </>
+          )}
           <br />
           Phonetics are an approximation for Spanish speakers — tap 🔊 for the real sound.
         </div>
+      </div>
+    </div>
+  );
+}
+
+interface SlotProps {
+  id: string;
+  label: string;
+  state: SlotState;
+  mode: PracticeMode;
+  checked: boolean;
+  value: string;
+  onValue: (v: string) => void;
+  options: string[];
+  picked: string | null;
+  onPick: (option: string) => void;
+  answer: string;
+  phonetic: string;
+  inputRef?: React.RefObject<HTMLInputElement>;
+}
+
+/**
+ * One form of the verb, asked either as a text field or as a set of choices.
+ * Both paths feed the same grading, so the score, streak and review list do
+ * not care which mode produced the answer.
+ */
+function Slot({
+  id,
+  label,
+  state,
+  mode,
+  checked,
+  value,
+  onValue,
+  options,
+  picked,
+  onPick,
+  answer,
+  phonetic,
+  inputRef,
+}: SlotProps) {
+  return (
+    <div className={`slot ${state === 'idle' ? '' : state}`}>
+      <label htmlFor={mode === 'write' ? id : undefined}>{label}</label>
+
+      {mode === 'write' ? (
+        <input
+          id={id}
+          ref={inputRef}
+          value={value}
+          disabled={checked}
+          onChange={(e) => onValue(e.target.value)}
+          autoComplete="off"
+          autoCapitalize="off"
+          spellCheck={false}
+        />
+      ) : (
+        <div className="choices">
+          {options.map((option) => {
+            // After checking, mark the answer green and a wrong pick red.
+            const isAnswer = checked && matches(option, answer);
+            const isWrongPick = checked && picked === option && !isAnswer;
+            return (
+              <button
+                key={option}
+                type="button"
+                className={`choice ${picked === option ? 'picked' : ''} ${
+                  isAnswer ? 'right' : ''
+                } ${isWrongPick ? 'wrong' : ''}`}
+                aria-pressed={picked === option}
+                disabled={checked}
+                onClick={() => onPick(option)}
+              >
+                {option}
+              </button>
+            );
+          })}
+        </div>
+      )}
+
+      <div className="answer">
+        <span className="word">{answer}</span>
+        <span className="aph">/{phonetic}/</span>
+        <button className="speak sm" title="Listen" onClick={() => say(firstForm(answer))}>
+          🔊
+        </button>
       </div>
     </div>
   );
