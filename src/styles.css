@@ -16,10 +16,10 @@
   --amber-soft:#FBECE2;
   --pencil:#5A6270;         /* 5.75:1 */
   --line:#E6E0D8;
-  --tabbar:#F0EAE1;
   --thead:#FBF8F4;
   --placeholder:#B5AEA4;
   --shadow:rgba(42,51,66,.07);
+  --scrim:rgba(42,51,66,.38);
   --radius:14px;
 }
 html[data-theme="dark"]{
@@ -37,10 +37,10 @@ html[data-theme="dark"]{
   --amber-soft:#33261C;
   --pencil:#9AA5B4;
   --line:#2C3340;
-  --tabbar:#232936;
   --thead:#1F2531;
   --placeholder:#4A5162;
   --shadow:rgba(0,0,0,.4);
+  --scrim:rgba(0,0,0,.55);
 }
 *{box-sizing:border-box;margin:0;padding:0}
 /* Base size: browsers default to 16px. Everything below is in rem,
@@ -54,25 +54,38 @@ body{
   transition:background-color .2s ease,color .2s ease;
 }
 .wrap{max-width:44rem;margin:0 auto;padding:24px 16px 80px}
-header{display:flex;align-items:baseline;justify-content:space-between;flex-wrap:wrap;gap:8px;margin-bottom:16px}
+header{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;margin-bottom:18px}
 h1{font-family:system-ui,-apple-system,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif;font-weight:800;font-size:clamp(1.5rem,4vw,2.1rem);letter-spacing:-.03em}
 h1 span{color:var(--blue)}
 .sub{color:var(--pencil);font-size:.85rem}
-.headRight{display:flex;align-items:center;gap:12px}
+/* nowrap keeps the star and the theme toggle glued together as one unit. */
+.headRight{display:flex;align-items:center;gap:8px;flex-wrap:nowrap}
 .themeBtn{
   border:1px solid var(--line);background:var(--card);color:var(--ink);
-  border-radius:999px;width:38px;height:38px;font-size:1rem;cursor:pointer;
-  display:grid;place-items:center;transition:.15s;
+  border-radius:999px;cursor:pointer;transition:.15s;
+  display:inline-flex;align-items:center;
 }
 .themeBtn:hover{border-color:var(--blue);color:var(--blue)}
-.tabs{display:flex;gap:6px;margin-bottom:14px;background:var(--tabbar);padding:4px;border-radius:12px;width:fit-content}
-.tab{border:0;background:transparent;font:600 .9rem system-ui,-apple-system,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif;color:var(--pencil);padding:8px 18px;border-radius:9px;cursor:pointer;transition:.15s}
-.tab.active{background:var(--card);color:var(--ink);box-shadow:0 1px 3px var(--shadow)}
+/* Standalone buttons, not a segmented tab bar. */
+.tabs{display:flex;gap:8px;margin-bottom:18px;flex-wrap:wrap}
+.tab{
+  border:1px solid var(--line);background:var(--card);color:var(--pencil);
+  font:600 .88rem system-ui,-apple-system,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif;
+  padding:10px 18px;border-radius:10px;cursor:pointer;transition:.15s;
+  box-shadow:0 1px 2px var(--shadow);
+}
+.tab:hover{color:var(--ink);border-color:var(--pencil)}
+.tab.active{
+  background:var(--blue);color:var(--on-blue);border-color:var(--blue);
+  box-shadow:0 2px 10px var(--shadow);
+}
+.tab.active:hover{filter:brightness(1.12);color:var(--on-blue);border-color:var(--blue)}
 .tab:focus-visible,button:focus-visible,input:focus-visible{outline:2px solid var(--blue);outline-offset:2px}
-
-.filters{display:flex;gap:8px;margin-bottom:16px;flex-wrap:wrap}
-.filt{border:1px solid var(--line);background:var(--card);color:var(--pencil);font:600 .8rem system-ui,-apple-system,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif;padding:7px 14px;border-radius:999px;cursor:pointer}
-.filt.active{border-color:var(--blue);color:var(--blue);background:var(--blue-soft)}
+/* Tighter on phones so the three views stay on a single row. */
+@media (max-width:480px){
+  .tabs{gap:6px}
+  .tab{padding:9px 12px;font-size:.8rem}
+}
 
 .score{display:flex;gap:10px;margin-bottom:16px}
 .chip{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:8px 14px;font-size:.8rem;color:var(--pencil)}
@@ -204,14 +217,88 @@ button.ghost:hover{color:var(--ink);border-color:var(--pencil)}
 .dictCard .dTip{font-size:.74rem;color:var(--pencil);margin-top:1px}
 .dictCard .dArrow{color:var(--pencil);font-size:.85rem}
 .dictCard:hover .dArrow{color:var(--blue)}
-.tablewrap{border-radius:var(--radius);overflow:auto;max-height:62vh;border:1px solid var(--line);background:var(--card)}
+/* The shell only exists to anchor the fades to the scroller's edges. */
+.tableShell{position:relative}
+.tablewrap{
+  border-radius:var(--radius);overflow:auto;max-height:62vh;
+  border:1px solid var(--line);background:var(--card);
+  /* Snaps to a column instead of stopping mid-word on a swipe. */
+  scroll-snap-type:x proximity;
+  -webkit-overflow-scrolling:touch;
+  /* Standard properties — Chrome 121+, Firefox and Safari 18.2+ honour these
+     and ignore the ::-webkit- rules below when both are present. The thumb
+     colour comes from --pencil, so it is dark on light and light on dark. */
+  scrollbar-width:thin;
+  scrollbar-color:var(--pencil) transparent;
+}
+/* Fallback for older WebKit, which has no support for the properties above. */
+.tablewrap::-webkit-scrollbar{width:9px;height:9px}
+.tablewrap::-webkit-scrollbar-track{background:transparent}
+.tablewrap::-webkit-scrollbar-corner{background:transparent}
+.tablewrap::-webkit-scrollbar-thumb{
+  background:var(--pencil);
+  border-radius:999px;
+  /* A card-coloured border makes the thumb read slimmer than the track it
+     needs for a comfortable hit area. */
+  border:2px solid var(--card);
+}
+.tablewrap::-webkit-scrollbar-thumb:hover{background:var(--ink)}
+/* Soft edge telling the user the table continues past the border. */
+.edgeFade{
+  position:absolute;top:1px;bottom:1px;width:34px;z-index:4;
+  pointer-events:none;opacity:0;transition:opacity .18s ease;
+}
+.edgeFade.show{opacity:1}
+.edgeFade.left{
+  left:1px;border-radius:var(--radius) 0 0 var(--radius);
+  background:linear-gradient(to right,var(--card) 10%,rgba(0,0,0,0));
+}
+.edgeFade.right{
+  right:1px;border-radius:0 var(--radius) var(--radius) 0;
+  background:linear-gradient(to left,var(--card) 10%,rgba(0,0,0,0));
+}
+/* Sits above the table. Uses --ink, so it is dark on light and near-white
+   on dark instead of the low-contrast grey a hint would normally get. */
+.scrollHint{
+  display:flex;align-items:center;gap:7px;justify-content:center;
+  font:600 .74rem system-ui,-apple-system,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif;
+  color:var(--ink);
+  background:var(--blue-soft);
+  border:1px solid var(--line);
+  border-radius:9px;
+  padding:8px 12px;
+  margin-bottom:9px;
+}
+.scrollHint span{color:var(--blue);font-size:.9rem;line-height:1}
+
 table{width:100%;border-collapse:collapse;font-size:.88rem}
-thead th{font:600 .68rem system-ui,-apple-system,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif;text-transform:uppercase;letter-spacing:.1em;color:var(--pencil);text-align:left;padding:12px 12px;border-bottom:1px solid var(--line);background:var(--thead);position:sticky;top:0}
-tbody td{padding:10px 12px;border-bottom:1px solid var(--line);vertical-align:top}
+thead th{
+  font:600 .68rem system-ui,-apple-system,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif;
+  text-transform:uppercase;letter-spacing:.1em;color:var(--pencil);text-align:left;
+  padding:12px 12px;border-bottom:1px solid var(--line);background:var(--thead);
+  position:sticky;top:0;z-index:2;white-space:nowrap;
+}
+tbody td{padding:10px 12px;border-bottom:1px solid var(--line);vertical-align:top;scroll-snap-align:start}
 tbody tr:last-child td{border-bottom:0}
-td .w{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,'Liberation Mono',monospace;display:block}
-td .p{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,'Liberation Mono',monospace;font-style:italic;color:var(--amber);font-size:.78rem;display:block;margin-top:2px}
-td.es{font-style:italic;color:var(--pencil)}
+tbody tr:hover td{background:var(--blue-soft)}
+td .w{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,'Liberation Mono',monospace;display:block;white-space:nowrap}
+td .p{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,'Liberation Mono',monospace;font-style:italic;color:var(--amber);font-size:.78rem;display:block;margin-top:2px;white-space:nowrap}
+td.es{font-style:italic;color:var(--pencil);min-width:7rem}
+.badge.edBadge{font-size:.55rem;margin-left:4px}
+/* The first column is a 1-character badge; it should not claim real width. */
+thead th:first-child,tbody td:first-child{width:1%;padding-right:4px}
+tbody td:first-child .badge{font-size:.55rem}
+/* Phones: tighter type and padding, and the audio column pinned to the right
+   edge so it stays reachable without scrolling all the way across. */
+@media (max-width:560px){
+  .tablewrap{max-height:70vh}
+  table{font-size:.8rem}
+  thead th{padding:10px 8px;font-size:.6rem}
+  tbody td{padding:9px 8px}
+  td .p{font-size:.68rem}
+  td.es{min-width:5.5rem}
+  .speak.sm{width:27px;height:27px;font-size:.78rem}
+}
 .legend{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:14px 16px;font-size:.8rem;color:var(--pencil);margin-top:14px;line-height:1.7}
 .legend b{color:var(--ink)}
 .legend .k{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,'Liberation Mono',monospace;color:var(--amber);font-style:italic}
@@ -345,3 +432,137 @@ td.es{font-style:italic;color:var(--pencil)}
 .whoami{display:flex;align-items:center;gap:8px;font-size:.78rem;color:var(--pencil)}
 .whoami button{border:1px solid var(--line);background:var(--card);color:var(--pencil);border-radius:999px;font:600 .72rem system-ui,-apple-system,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif;padding:5px 11px;cursor:pointer}
 .whoami button:hover{border-color:var(--blue);color:var(--blue)}
+
+/* ─────────────────────────────────────────────────────────────
+   Theme toggle with a visible label, so the button explains
+   itself instead of relying on the emoji alone.
+   ───────────────────────────────────────────────────────────── */
+.themeBtn{
+  gap:7px;white-space:nowrap;
+  font:600 .78rem system-ui,-apple-system,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif;
+}
+.themeBtn .themeIcon{font-size:1rem;line-height:1}
+
+/* ─────────────────────────────────────────────────────────────
+   Two-column shell. Phones and tablets keep the single column
+   they have today — the aside simply sits after the main content.
+   ───────────────────────────────────────────────────────────── */
+.layout{display:grid;gap:22px;align-items:start}
+/* A grid item defaults to min-width:auto, so the wide verb table would push
+   the whole page sideways instead of scrolling inside its own box. */
+.mainCol{min-width:0}
+
+@media (min-width:1180px){
+  .wrap{max-width:66rem}
+  .layout{grid-template-columns:minmax(0,1fr) 19rem;gap:26px}
+  /* Follows the user down long verb tables instead of scrolling away. */
+  .sideCol{position:sticky;top:24px}
+  .sideCol .donate{margin-top:0;padding:26px 18px 22px}
+  .sideCol .donateTitle{font-size:1.3rem}
+  .sideCol .donateHeart{width:50px;height:50px;font-size:1.5rem}
+  .sideCol .donateSub{font-size:.82rem;margin-bottom:6px}
+  .sideCol .donateSubEn{display:none}
+  .sideCol .donateBtns{flex-direction:column}
+  .sideCol .donoBtn{width:100%}
+  .sideCol .donateGlow{width:200px;height:120px;top:-56px}
+}
+
+/* ─────────────────────────────────────────────────────────────
+   Floating "¿Me invitas un café?" button + its sheet.
+   Only below the desktop breakpoint: above it the support column
+   is already visible on the right, so the button would be noise.
+   ───────────────────────────────────────────────────────────── */
+.coffeeFab{
+  position:fixed;right:16px;z-index:55;
+  /* Clears the iOS home indicator instead of sitting under it. */
+  bottom:calc(16px + env(safe-area-inset-bottom,0px));
+  display:inline-flex;align-items:center;gap:8px;
+  border:1px solid var(--line);border-radius:999px;
+  background:var(--card);
+  color:var(--ink);cursor:pointer;
+  font:600 .82rem system-ui,-apple-system,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif;
+  padding:10px 16px 10px 13px;
+  box-shadow:0 4px 16px var(--shadow);
+  transition:transform .18s ease,box-shadow .18s ease,border-color .18s ease;
+}
+.coffeeFab:hover,.coffeeFab:focus-visible{
+  border-color:var(--blue);
+  transform:translateY(-2px);box-shadow:0 8px 24px var(--shadow);
+}
+.coffeeFab:active{transform:translateY(0)}
+.coffeeFab.isOpen{opacity:0;pointer-events:none}
+.coffeeFab .cfIco{font-size:1.05rem;line-height:1}
+@media (prefers-reduced-motion:reduce){
+  .coffeeFab{transition:border-color .18s ease}
+  .coffeeFab:hover,.coffeeFab:focus-visible{transform:none}
+}
+
+.coffeeBackdrop{
+  position:fixed;inset:0;z-index:58;
+  background:var(--scrim);
+  -webkit-backdrop-filter:blur(2px);backdrop-filter:blur(2px);
+  animation:cfFade .16s ease;
+}
+@keyframes cfFade{from{opacity:0}to{opacity:1}}
+
+.coffeeSheet{
+  position:fixed;z-index:59;left:12px;right:12px;
+  bottom:calc(12px + env(safe-area-inset-bottom,0px));
+  max-width:24rem;margin:0 auto;
+  background:var(--card);border:1px solid var(--line);
+  border-radius:18px;padding:24px 20px 20px;text-align:center;
+  box-shadow:0 -6px 40px rgba(0,0,0,.28);
+  animation:cfUp .2s cubic-bezier(.2,.8,.3,1);
+}
+@keyframes cfUp{from{transform:translateY(16px);opacity:.4}to{transform:none;opacity:1}}
+@media (prefers-reduced-motion:reduce){
+  .coffeeBackdrop,.coffeeSheet{animation:none}
+}
+.coffeeSheet .csClose{
+  position:absolute;top:10px;right:10px;
+  border:0;background:transparent;color:var(--pencil);
+  cursor:pointer;font-size:.9rem;padding:6px;line-height:1;
+}
+.coffeeSheet .csClose:hover{color:var(--ink)}
+.coffeeSheet .csHeart{
+  font-size:1.6rem;width:52px;height:52px;margin:0 auto 8px;
+  display:grid;place-items:center;border-radius:50%;
+  background:var(--amber-soft);border:1px solid var(--line);
+}
+.coffeeSheet .csTitle{
+  font-size:1.25rem;font-weight:800;letter-spacing:-.02em;
+  color:var(--amber);margin-bottom:6px;
+}
+.coffeeSheet .csSub{font-size:.82rem;color:var(--pencil);line-height:1.6;margin-bottom:16px}
+.coffeeSheet .csNote{font-size:.7rem;color:var(--pencil);margin-top:14px;font-style:italic}
+
+/* Stacked variant of the payment buttons, for narrow panels and the side column. */
+.donateBtns.stacked{flex-direction:column}
+.donateBtns.stacked .donoBtn{width:100%;justify-content:flex-start}
+
+@media (max-width:1179px){
+  /* The floating button covers support on phones and tablets, so the long
+     section at the bottom of the page would just repeat it. */
+  .sideCol{display:none}
+  /* The Nequi instructions share the bottom-right corner with the button. */
+  .nequiHelp{bottom:calc(76px + env(safe-area-inset-bottom,0px))}
+}
+@media (min-width:1180px){
+  .coffeeFab,.coffeeBackdrop,.coffeeSheet{display:none}
+}
+/* Very narrow phones: keep the button from crowding the Check/Skip row. */
+@media (max-width:379px){
+  .coffeeFab{font-size:.76rem;padding:9px 13px 9px 11px}
+}
+
+/* ─────────────────────────────────────────────────────────────
+   Header controls sized as siblings, so the star and the theme
+   toggle read as one pair.
+   ───────────────────────────────────────────────────────────── */
+.supBtn,.themeBtn{padding:8px 14px;font-size:.78rem}
+.supBtn{gap:6px}
+@media (max-width:420px){
+  /* Drops the English half of the label so the row never wraps. */
+  .themeLabelEn{display:none}
+  .supBtn,.themeBtn{padding:7px 11px;font-size:.72rem}
+}

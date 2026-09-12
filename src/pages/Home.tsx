@@ -1,5 +1,5 @@
 import { useCallback, useState } from 'react';
-import type { DirMode, Filter, View } from '../types';
+import type { DirMode, View } from '../types';
 import { useTheme } from '../hooks/useTheme';
 import { useProgress } from '../hooks/useProgress';
 import { useSession } from '../hooks/useSession';
@@ -9,7 +9,10 @@ import VerbsTable from '../components/VerbsTable';
 import Translator from '../components/Translator';
 import StarButton from '../components/StarButton';
 import Donate from '../components/Donate';
+import SupportFab from '../components/SupportFab';
+import NequiHelp from '../components/NequiHelp';
 import Toast from '../components/Toast';
+import { useSupport } from '../hooks/useSupport';
 
 const TABS: ReadonlyArray<[View, string]> = [
   ['quiz', 'Practice'],
@@ -17,20 +20,14 @@ const TABS: ReadonlyArray<[View, string]> = [
   ['translate', 'Translate'],
 ];
 
-const FILTERS: ReadonlyArray<[Filter, string]> = [
-  ['all', 'All verbs'],
-  ['I', 'Irregular'],
-  ['R', 'Regular (-ed)'],
-];
-
 export default function Home() {
   const [theme, toggleTheme] = useTheme();
   const { progress, record, reset } = useProgress();
   const { session, signOut } = useSession();
   const { message, toast } = useToast();
+  const { nequiHelp, closeNequiHelp, copyPay, nequiPSE, hasAny } = useSupport(toast);
 
   const [view, setView] = useState<View>('quiz');
-  const [filter, setFilter] = useState<Filter>('all');
   const [searchQuery, setSearchQuery] = useState('');
   const [transQuery, setTransQuery] = useState('');
   const [dirMode, setDirMode] = useState<DirMode>('auto');
@@ -52,66 +49,84 @@ export default function Home() {
           Verbs <span>Trainer</span>
         </h1>
         <div className="headRight">
-          {session ? (
+          <StarButton />
+          {session && (
             <span className="whoami">
               {session.email}
               <button onClick={signOut}>Sign out</button>
             </span>
-          ) : (
-            <div className="sub">irregular + regular · with sound ✍️🔊</div>
           )}
-          <button className="themeBtn" onClick={toggleTheme} aria-label="Switch theme" title="Switch theme">
-            {theme === 'dark' ? '☀️' : '🌙'}
+          {/* The label says what the button will DO, not what is on now. */}
+          <button
+            className="themeBtn"
+            onClick={toggleTheme}
+            aria-label={theme === 'dark' ? 'Switch to light mode' : 'Switch to dark mode'}
+            title={theme === 'dark' ? 'Modo claro · Light mode' : 'Modo oscuro · Dark mode'}
+          >
+            <span className="themeIcon" aria-hidden="true">
+              {theme === 'dark' ? '☀️' : '🌙'}
+            </span>
+            <span className="themeLabel">
+              {theme === 'dark' ? 'Modo claro' : 'Modo oscuro'}
+              {/* Dropped on very narrow phones so the row never wraps. */}
+              <span className="themeLabelEn">{theme === 'dark' ? ' · Light' : ' · Dark'}</span>
+            </span>
           </button>
         </div>
       </header>
 
-      <StarButton />
+      {/* One column on phones and tablets; on wide screens the support panel
+          becomes a sticky right-hand column instead of sinking to the bottom. */}
+      <div className="layout">
+        <div className="mainCol">
+          {/* Plain buttons rather than a segmented tab bar: aria-pressed says
+              which one is on, which is what a toggle button reports. */}
+          <div className="tabs">
+            {TABS.map(([id, label]) => (
+              <button
+                key={id}
+                className={`tab ${view === id ? 'active' : ''}`}
+                aria-pressed={view === id}
+                onClick={() => setView(id)}
+              >
+                {label}
+              </button>
+            ))}
+          </div>
 
-      <div className="tabs" role="tablist">
-        {TABS.map(([id, label]) => (
-          <button key={id} className={`tab ${view === id ? 'active' : ''}`} onClick={() => setView(id)}>
-            {label}
-          </button>
-        ))}
+          {view === 'quiz' && (
+            <Practice progress={progress} onAnswer={record} onReset={reset} />
+          )}
+
+          {view === 'study' && (
+            <VerbsTable
+              query={searchQuery}
+              onQueryChange={setSearchQuery}
+              onSendToTranslate={sendToTranslate}
+            />
+          )}
+
+          {view === 'translate' && (
+            <Translator
+              query={transQuery}
+              onQueryChange={setTransQuery}
+              dirMode={dirMode}
+              onDirModeChange={setDirMode}
+              autoRun={autoRun}
+              onAutoRunHandled={() => setAutoRun(false)}
+            />
+          )}
+        </div>
+
+        {hasAny && (
+          <aside className="sideCol">
+            <Donate copyPay={copyPay} nequiPSE={nequiPSE} />
+          </aside>
+        )}
       </div>
 
-      {/* The filter row only makes sense next to the practice card and the table. */}
-      {view !== 'translate' && (
-        <div className="filters">
-          {FILTERS.map(([id, label]) => (
-            <button key={id} className={`filt ${filter === id ? 'active' : ''}`} onClick={() => setFilter(id)}>
-              {label}
-            </button>
-          ))}
-        </div>
-      )}
-
-      {view === 'quiz' && (
-        <Practice filter={filter} progress={progress} onAnswer={record} onReset={reset} />
-      )}
-
-      {view === 'study' && (
-        <VerbsTable
-          filter={filter}
-          query={searchQuery}
-          onQueryChange={setSearchQuery}
-          onSendToTranslate={sendToTranslate}
-        />
-      )}
-
-      {view === 'translate' && (
-        <Translator
-          query={transQuery}
-          onQueryChange={setTransQuery}
-          dirMode={dirMode}
-          onDirModeChange={setDirMode}
-          autoRun={autoRun}
-          onAutoRunHandled={() => setAutoRun(false)}
-        />
-      )}
-
-      <Donate toast={toast} />
+      {hasAny && <SupportFab copyPay={copyPay} nequiPSE={nequiPSE} />}
+      {nequiHelp && <NequiHelp number={nequiHelp} onClose={closeNequiHelp} copyPay={copyPay} />}
       <Toast message={message} />
     </div>
   );

@@ -1,13 +1,12 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import type { Filter, Verb } from '../types';
-import { ED_LABELS, firstForm, matches, pool, shuffle, verbId, VERBS } from '../lib/verbs';
+import type { Verb } from '../types';
+import { ED_LABELS, firstForm, matches, shuffle, verbId, VERBS } from '../lib/verbs';
 import { say } from '../lib/speech';
 import type { Progress } from '../lib/storage';
 import { weakVerbs } from '../lib/storage';
 import ProgressPanel from './ProgressPanel';
 
 interface Props {
-  filter: Filter;
   progress: Progress;
   onAnswer: (id: string, correct: boolean) => void;
   onReset: () => void;
@@ -15,7 +14,7 @@ interface Props {
 
 type SlotState = 'idle' | 'ok' | 'bad';
 
-export default function Practice({ filter, progress, onAnswer, onReset }: Props) {
+export default function Practice({ progress, onAnswer, onReset }: Props) {
   const [current, setCurrent] = useState<Verb | null>(null);
   const [checked, setChecked] = useState(false);
   const [past, setPast] = useState('');
@@ -33,14 +32,14 @@ export default function Practice({ filter, progress, onAnswer, onReset }: Props)
 
   /** In review mode the deck is only what has been missed before. */
   const activePool = useMemo<Verb[]>(() => {
-    if (!reviewMode) return pool(filter);
+    if (!reviewMode) return VERBS;
     const ids = new Set(weakVerbs(progress).map((w) => w.id));
     const missed = VERBS.filter((v) => ids.has(verbId(v)));
-    return missed.length > 0 ? missed : pool(filter);
+    return missed.length > 0 ? missed : VERBS;
     // `progress` is deliberately not a dependency: recomputing the pool on
     // every answer would reshuffle the deck mid-session.
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [reviewMode, filter]);
+  }, [reviewMode]);
 
   const clearSlots = useCallback(() => {
     setPast('');
